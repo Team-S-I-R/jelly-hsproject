@@ -10,6 +10,7 @@ from moviepy.editor import AudioFileClip, ImageClip, CompositeVideoClip
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
+from config.error_config import register_error_handlers
 
 load_dotenv()
 
@@ -17,38 +18,9 @@ app = Flask(__name__)
 nltk.download('vader_lexicon')
 sid = SentimentIntensityAnalyzer()
 
+# registering error handlers in error_config.py
+register_error_handlers(app)
 
-@app.errorhandler(404)
-def not_found(error):
-    response = {
-        "error": "404: NOT FOUND.",
-        "message": "THe requested resource you are looking for could not be found.",
-        "status": 404
-    }
-
-    return jsonify(response), 404
-
-
-@app.errorhandler(429)
-def too_many_requests(error):
-    response = {
-        "error": "429: TOO MANY REQUESTS.",
-        "message": "You have exceeded the maximum number of requests allowed.",
-        "status": 429
-    }
-
-    return jsonify(response), 429
-
-
-@app.errorhandler(500)
-def internal_server_error(error):
-    response = {
-        "error": "500: INTERNAL SERVER ERROR.",
-        "message": "Its not you, its us. We are experiencing some technical difficulties.",
-        "status": 500
-    }
-
-    return jsonify(response), 500
 
 
 @app.route("/transcribe", methods=['POST'])

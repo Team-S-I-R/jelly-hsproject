@@ -2,7 +2,6 @@ from ffmpy import FFmpeg, FFRuntimeError
 from config.log import logger as log
 from dataclasses import dataclass
 
-
 @dataclass
 class ExtensionTypes:
     WAV = "wav"
@@ -15,7 +14,6 @@ class ExtensionTypes:
 
 
 BASE_PATH = "./uploads/"
-
 
 def is_valid_extension(file: str) -> bool:
     if file not in ExtensionTypes.__annotations__.values():
@@ -56,3 +54,4 @@ def extract_audio_format_wav(file: str, output: str, extension: str) -> None:
 
 
 # TODO: Read https://stackoverflow.com/questions/49669298/conversing-mp4-to-wav-with-the-same-file-name-in-python
+
