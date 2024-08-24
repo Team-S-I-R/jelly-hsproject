@@ -72,8 +72,20 @@ def wrap_text(text, font, font_scale, font_thickness, max_width):
         
     return lines
 
-# step 4: add the captions to each frame
-def add_captions(input_path, output_path, captions_path):
+# step 4: apply a filter to a video frame if there are any
+def add_filters(frame, filter_type='grayscale'):
+    """Apply a filter to a video frame."""
+    if filter_type == 'grayscale':
+        return cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    elif filter_type == 'blur':
+        return cv2.GaussianBlur(frame, (15, 15), 0)
+    elif filter_type == 'edge_detection':
+        return cv2.Canny(frame, 100, 200)
+    else:
+        return frame  # No filter applied
+
+# step 5: add the captions to each frame
+def add_captions(input_path, output_path, captions_path, filter_type=None):
     # Open video file
     cap = cv2.VideoCapture(input_path)
     
@@ -104,6 +116,10 @@ def add_captions(input_path, output_path, captions_path):
         if not ret:
             break
         
+        # Apply selected filter
+        if filter_type:
+            frame = add_filters(frame, filter_type)
+
         # Calculate the current frame's time
         frame_time = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
         
@@ -127,7 +143,10 @@ def add_captions(input_path, output_path, captions_path):
             text_size, _ = cv2.getTextSize(line, font, font_scale, font_thickness)
             text_width = text_size[0]
             text_x = int((width - text_width) / 2)
-            cv2.putText(frame, line, (text_x, y), font, font_scale, color, font_thickness, cv2.LINE_AA)
+            if filter_type == 'grayscale':
+                cv2.putText(frame, line, (text_x, y), font, font_scale, color, font_thickness, cv2.LINE_AA)
+            else:
+                cv2.putText(frame, line, (text_x, y), font, font_scale, color, font_thickness, cv2.LINE_AA)
             y -= (line_height + margin)
         
         # Write the frame
