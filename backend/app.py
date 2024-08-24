@@ -17,6 +17,7 @@ app = Flask(__name__)
 nltk.download('vader_lexicon')
 sid = SentimentIntensityAnalyzer()
 
+
 @app.errorhandler(404)
 def not_found(error):
     response = {
@@ -78,6 +79,8 @@ def upload():
         if request.files:
             file = request.files["file"]
             file.save(f"./uploads/{file.filename}_{time.time()}.")
+
+
 def mapping(text):
     sentiment_scores = sid.polarity_scores(text)
     compound = sentiment_scores['compound']
@@ -89,8 +92,10 @@ def mapping(text):
     else:
         return {"Neutral": 1 - abs(compound)}
 
+
 def text_emotion_analysis(text):
     return mapping(text)
+
 
 def face_emotion_analysis(file_path):
     result = DeepFace.analyze(img_path=file_path, actions=["emotion"])
@@ -108,7 +113,7 @@ def create_video():
     summary_text = response.text
     words = summary_text.split()
     chunk = 10
-    chunks = [' '.join(words[i:i +chunk]) for i in range(0, len(words), chunk_size)]
+    chunks = [' '.join(words[i:i + chunk]) for i in range(0, len(words), chunk_size)]
 
     clips = []
     audio = AudioFileClip(audio_file)
@@ -120,7 +125,7 @@ def create_video():
             params={"query": chunk, "per_page": 1}
         )
         if response.status_code == 200:
-            image_url =response.json()["photos"][0]["src"]["original"]
+            image_url = response.json()["photos"][0]["src"]["original"]
             image_clip = ImageClip(image_url).set_duration(15)
             clips.append(image_clip.set_audio(audio))
 
