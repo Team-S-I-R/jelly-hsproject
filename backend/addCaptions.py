@@ -90,13 +90,15 @@ def add_captions(input_path, output_path, captions_path, filter_type=None):
     cap = cv2.VideoCapture(input_path)
     
     # Get video properties
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    fourcc = cv2.VideoWriter_fourcc(*'H264')  # Using H264 for better quality
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     
+    # Create VideoWriter object with a high-quality codec
+    is_color = filter_type != 'grayscale'  # Output in color unless grayscale filter is applied
     # Create VideoWriter object
-    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height), is_color)
     
     # Parse captions from SRT file
     captions = parse_srt(captions_path)
@@ -179,6 +181,7 @@ def upload_file():
         
         # Send the processed video file back to the user
         return send_file(output_path, as_attachment=True)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
