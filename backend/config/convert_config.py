@@ -1,6 +1,9 @@
-from ffmpy import FFmpeg, FFRuntimeError
 from config.log import logger as log
 from dataclasses import dataclass
+import os
+import sys
+import time
+import subprocess
 
 @dataclass
 class ExtensionTypes:
@@ -35,23 +38,22 @@ def is_valid(file: str, output: str) -> bool:
     return False
 
 
-def extract_audio_format_wav(file: str, output: str, extension: str) -> None:
-    out_file = f"{BASE_PATH}{output}.{extension}"
+# this converts mp4 to wav
+def convert_mp4_to_wav(path):
+    files = os.listdir(path)
+    wav_files = []
 
-    try:
-        ff = FFmpeg(
-            inputs={file: None},
-            outputs={out_file: None},
-            global_options=["-y"],
-        )
-
-    except FFRuntimeError as e:
-        log.error(f"Error extracting audio from {file} to {output}.{extension}: {e}")
-
-    else:
-        log.info(f"Extracting audio from {file} to {output}.{extension}")
-        ff.run()
-
-
+    for file in files:
+        log.info(f"Processing {file} in {path}")
+        subprocess.run([
+            "ffmpeg",
+            "-i",
+            f"{path}{file}",
+            f"{path}{file.split('.')[0]}.wav"
+        ])
+        wav_files.append(f"{path}{file.split('.')[0]}.wav")
+        log.info(f"Converted {file} to {file.split('.')[0]}.wav")
+    
+    return wav_files
 # TODO: Read https://stackoverflow.com/questions/49669298/conversing-mp4-to-wav-with-the-same-file-name-in-python
 

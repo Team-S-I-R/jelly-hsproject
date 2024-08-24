@@ -24,6 +24,7 @@ pkginfo==1.11.1
 poetry-plugin-export==1.8.0
 protoc-gen-openapiv2==0.0.1
 python-dotenv==1.0.1
+pydub==0.25.1
 requests-toolbelt==1.0.0
 shellingham==1.5.4
 tomli==2.0.1
