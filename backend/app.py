@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from config.log import logger as log
 from flask import abort, redirect, request
+from deepface import DeepFace
 
 import time
 
@@ -61,6 +62,9 @@ def transcribe():  # put application's code here
     # TODO: Delete .wav file ./uploads
     # TODO: Delete .mp4 file from ./temp
 
+def emotion_analysis(file_path):
+    result = DeepFace.analyze(img_path=file_path, actions=["emotion"])
+    return result[0]["dominant_emotion"]
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
