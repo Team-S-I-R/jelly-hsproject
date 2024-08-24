@@ -39,21 +39,38 @@ def is_valid(file: str, output: str) -> bool:
 
 
 # this converts mp4 to wav
-def convert_mp4_to_wav(path):
-    files = os.listdir(path)
-    wav_files = []
-
-    for file in files:
-        log.info(f"Processing {file} in {path}")
+def convert_mp4_to_wav(file_path):
+    try:
+        # Normalize the file path
+        normalized_path = os.path.normpath(file_path)
+        
+        # Get the directory and filename
+        directory, filename = os.path.split(normalized_path)
+        
+        # Get the filename without extension
+        filename_without_ext = os.path.splitext(filename)[0]
+        
+        # Create the output wav file path
+        output_wav = os.path.join(directory, f"{filename_without_ext}.wav")
+        
+        log.info(f"Processing {normalized_path}")
+        
+        # Run ffmpeg command with the -y flag to overwrite if the file exists
         subprocess.run([
             "ffmpeg",
+            "-y",  # Automatically overwrite output file if it exists
             "-i",
-            f"{path}{file}",
-            f"{path}{file.split('.')[0]}.wav"
-        ])
-        wav_files.append(f"{path}{file.split('.')[0]}.wav")
-        log.info(f"Converted {file} to {file.split('.')[0]}.wav")
+            normalized_path,
+            output_wav
+        ], check=True)
+        
+        log.info(f"Converted {filename} to {filename_without_ext}.wav")
+        
+        return output_wav
     
-    return wav_files
-# TODO: Read https://stackoverflow.com/questions/49669298/conversing-mp4-to-wav-with-the-same-file-name-in-python
-
+    except subprocess.CalledProcessError as e:
+        log.error(f"Error during conversion: {e}")
+        return None
+    except Exception as e:
+        log.error(f"Unexpected error: {e}")
+        return None

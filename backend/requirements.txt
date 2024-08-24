@@ -27,6 +27,8 @@ python-dotenv==1.0.1
 pydub==0.25.1
 requests-toolbelt==1.0.0
 shellingham==1.5.4
+supabase==2.7.3
+tf-keras==2.17.0
 tomli==2.0.1
 tomlkit==0.12.5
 trove-classifiers==2024.5.22
