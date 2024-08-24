@@ -17,9 +17,12 @@ load_dotenv(dotenv_path=".env")
 
 # AI config
 try:
+
+    api_key = os.getenv("OPENAI_API_KEY")
+
     openai = OpenAI(
-        api_key=os.getenv("OPENAI_API_KEY"),
-        project=os.getenv("OPENAI_PROJECT_ID"),
+        api_key=api_key,
+        # project=os.getenv("OPENAI_PROJECT_ID"),
     )
 
 except OpenAIError as e:
