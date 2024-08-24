@@ -1,0 +1,21 @@
+1
+00:00:00,000 --> 00:00:02,000
+- Hey, how are you?
+- I'm good, thank you. How about you?
+
+2
+00:00:03,000 --> 00:00:04,000
+- I'm doing well, thanks for asking.
+- That's great to hear.
+
+3
+00:00:05,000 --> 00:00:06,000
+- What have you been up to lately?
+- Just working on some interesting projects. How about you?
+
+4
+00:00:07,000 --> 00:00:08,000
+- I've been busy with work too.
+- It's always good to stay productive.
+
+
