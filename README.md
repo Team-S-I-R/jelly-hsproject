@@ -24,8 +24,12 @@
 > [!WARNING] 
 > This project is a Hackathon submission for JellyJelly for HeadStarter AI, a fellowship program dedicated to provide opportunities for the next generation. This project is a transcriber for JellyJelly.com and intended as a feature, and is currently still under development.
 
+## Architecture Diagram
+![Architecture-Diagram](repo-assets/architecture-diagram.png)
+
 ## Table of Contents
 
+- [Architecture Diagram](#architecture-diagram)
 - [Table of Contents](#table-of-contents)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)

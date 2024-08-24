@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { BackgroundGradientAnimation } from "../components/ui/background-gradient-animations";
 import { motion } from "framer-motion";
-import { Input } from "@/frontend/ui/input";
+import { Input } from "@/components/ui/input";
 import { useFormState, useFormStatus } from 'react-dom'
 import { submitFormResponse } from './actions'
-import { useToast } from "@/frontend/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Header from "./header";
 
 export default function Home() {
