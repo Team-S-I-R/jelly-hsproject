@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import prisma from '../../frontend/lib/db';
+import prisma from '../lib/db';
 
 const generateRandomId = () => {
   return Math.random().toString(36).substring(2, 10);
