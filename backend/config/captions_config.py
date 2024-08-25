@@ -1,8 +1,14 @@
 import cv2
 import re
 
+
 def parse_srt(srt_path):
-    """Parse the SRT file into a list of tuples with start time, end time, and caption text."""
+    """
+    Parse the SRT file into a list of tuples with start time, end time, and caption text.
+
+    :param srt_path: The path provided to the SRT file.
+    :return: A list of dictionaries with keys 'start_time', 'end_time', and 'text'.
+    """
     captions = []
     with open(srt_path, 'r') as file:
         srt_content = file.read()
@@ -23,13 +29,29 @@ def parse_srt(srt_path):
                 
     return captions
 
+
 def convert_srt_time_to_seconds(srt_time):
-    """Convert SRT time format (HH:MM:SS,MMM) to seconds."""
+    """
+    Convert SRT time format (HH:MM:SS,MMM) to seconds.
+
+    :param srt_time: The SRT time string.
+    :return: The time in seconds (float).
+    """
     h, m, s, ms = map(int, re.split('[:,]', srt_time))
     return int(h) * 3600 + int(m) * 60 + int(s) + int(srt_time.split(',')[1]) / 1000
 
+
 def wrap_text(text, font, font_scale, font_thickness, max_width):
-    """Wrap text to fit within a given width."""
+    """
+    Wrap text to fit within a given width.
+
+    :param text: The text that needs to be wrapped.
+    :param font: The font used to render the text.
+    :param font_scale: The scale of the font.
+    :param font_thickness: The thickness of the font.
+    :param max_width: The maximum width of the
+    :return: A list[str] of lines of text that fit within the given width.
+    """
     words = text.split(' ')
     lines = []
     current_line = ''
@@ -53,6 +75,7 @@ def wrap_text(text, font, font_scale, font_thickness, max_width):
         
     return lines
 
+
 def add_filters(frame, filter_type='grayscale'):
     """Apply a filter to a video frame."""
     if filter_type == 'grayscale':
@@ -63,6 +86,7 @@ def add_filters(frame, filter_type='grayscale'):
         return cv2.Canny(frame, 100, 200)
     else:
         return frame  # No filter applied
+
 
 def add_captions(input_path, output_path, captions_path, filter_type=None):
     cap = cv2.VideoCapture(input_path)
