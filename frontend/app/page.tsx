@@ -26,7 +26,7 @@ export default function Home() {
 						type="submit"
 					>
 						<div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg" />
-						<div className="px-8 py-2  bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
+						<div className="px-8 py-2 bg-black rounded-[6px]  relative group transition duration-200 text-white hover:bg-transparent">
 							Submit
 						</div>
 					</motion.button>
@@ -62,20 +62,19 @@ export default function Home() {
 		prevState: FormState,
 		formData: FormData
 	): Promise<FormState> => {
-		await 
-      submitFormResponse(formData, formState)
-        .then((response) => {
-          toast({
-            title: "✅ Thanks for your Interest!",
-            description: "You have been successfully added to the wait-list.",
-            itemID: "success",
-          });
+		await submitFormResponse(formData, formState)
+        .then(() => {
+			toast({
+				title: "✅ Thanks for your Interest!",
+				description: "You have been successfully added to the wait-list.",
+				itemID: "success",
+			});
         }).catch((error) => {
-          toast({
-            title: "❌ Error",
-            description: "An error occurred while submitting the form. Please try again later.",
-            itemID: "error",
-          });
+			toast({
+				title: "❌ Error",
+				description: `An unexpected error has occurred: ${error}`,
+				itemID: "error",
+			});
         })
 		return { message: "Submission successful!" };
 	};
@@ -97,7 +96,6 @@ export default function Home() {
 								</p>
 								<p className="text-[15px] select-none">
 									The Fastest Way to Post Brilliant Video Chats!
-									{/* We use AI to generate stylish clips for all your socials, so you do no work. It's podcasting, reinvented. */}
 								</p>
 							</div>
 						</div>
@@ -140,7 +138,6 @@ export default function Home() {
 							</motion.p>
 						</motion.div>
 					</BackgroundGradientAnimation>
-					<div></div>
 				</div>
 			</main>
 		</>
