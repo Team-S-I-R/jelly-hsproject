@@ -3,16 +3,16 @@ import os
 from pydub import AudioSegment
 from openai import OpenAI
 from dotenv import load_dotenv
-import openai
 
 load_dotenv(dotenv_path=".env")
 
 MODEL = "gpt-4o"
 
-# initialize OpenAI
+# AI Config
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
 )
+
 
 def query_chatgpt(user_content: str, system_prompt: str) -> str:
     response = client.chat.completions.create(
@@ -30,19 +30,19 @@ def query_chatgpt(user_content: str, system_prompt: str) -> str:
         temperature=0.9,
         frequency_penalty=0
     )
-    
+
     response_text = response.choices[0].message.content.strip()
-    
+
     # Ensure the temp directory exists
     os.makedirs('./temp', exist_ok=True)
-    
+
     # Define the file path
     file_path = './temp/response.srt'
-    
+
     # Write the response text to the file
     with open(file_path, 'w') as file:
         file.write(response_text)
-        
+
     return file_path
 
 
@@ -53,7 +53,6 @@ def process_audio(song):
     first_10_minutes = song[:ten_minutes]
     first_10_minutes.export("./temp/good_morning_10.wav", format="wav")
 
-
     audio_file = open("./temp/good_morning_10.wav", "rb")
     transcript = client.audio.transcriptions.create(
         file=audio_file,
@@ -63,7 +62,8 @@ def process_audio(song):
     )
 
     system = (
-        "You are a subtitle generator. I will provide you with a transcript of a video, and I need you to format it into SubRip Subtitle (.srt) file format. "
+        "You are a subtitle generator. I will provide you with a transcript of a video, and I need you to format it "
+        "into SubRip Subtitle (.srt) file format."
         "DO NOT include formatting or code blocks!!!!!!!!!! Just give me the transcript in the format we am asking for"
         "The .srt format consists of subtitles with the following structure:\n\n"
         "1\n"

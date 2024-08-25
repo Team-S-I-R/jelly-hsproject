@@ -73,23 +73,20 @@ def transcribe():
         output_path = './temp/captioned_Video.mp4'
         
         convertedWav = convert_mp4_to_wav(input_path)
+        
         # # TODO: Transcribe .wav file to text using AI (config/transcribe_config.py)
         # # TODO: Return transcribed text in JSON
         time.sleep(2)
         captions_path = process_audio(convertedWav)
-        # # TODO: Add text to video (config/captions_config.py)
 
-        # # TODO: Tunr captions into s .srt file (captions file)
+        # TODO: Turn captions into s .srt file (captions file)
         add_ct = add_captions(input_path, output_path, captions_path)
-        # # TODO: Store in Database (TBD)
+        
+        # TODO: Store in Database (TBD)
         upload = upload_file_to_supabase(add_ct, filename)
         time.sleep(1)
-        # log.info(f"Temporary files removed: {wav_path} and {file_path}")
         
-        # time.sleep(2)
-        # print("removing temporary files...")
-       
-        # # TODO: Delete files
+        # TODO: Delete files
         new_filename = filename.replace('.mp4', '.wav')
         os.remove(f'./temp/{filename}')
         time.sleep(1)
@@ -97,10 +94,6 @@ def transcribe():
         time.sleep(1)
         os.remove('./temp/captioned_Video.mp4')
         time.sleep(1)
-        # os.remove('./temp/good_morning_10.wav')
-        # time.sleep(1)
-        # os.remove('./temp/response.srt')
-        # time.sleep(1)
 
         return handle_200_json(message="200: SUCCESSFULLY TRANSCRIBED.")
 
