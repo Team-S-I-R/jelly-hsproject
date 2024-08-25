@@ -8,9 +8,10 @@ load_dotenv()
 
 MODEL = "gpt-4o"
 
+ak = os.getenv("OPENAI_API_KEY")
 # AI Config
 client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
+    api_key=ak,
 )
 
 

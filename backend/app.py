@@ -24,11 +24,14 @@ import google.generativeai as genai
 load_dotenv()
 
 app = Flask(__name__)
+
 CORS(app, origins=[
-        "http://localhost:3000", 
+    "http://localhost:3000", 
+    "0.0.0.0:5000", 
     "http://localhost:3001", 
     "http://localhost:3002", 
 ])
+
 nltk.download('vader_lexicon')
 sid = SentimentIntensityAnalyzer()
 

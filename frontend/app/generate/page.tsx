@@ -35,7 +35,7 @@ export default function GenClientComponent() {
 
         try {
             console.log('Uploading video file');
-            const response = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5000' : 'https://vercel-globetrotters-be-deployment.vercel.app'}/main`, {
+            const response = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5000' : 'https://jelly-hackathon-hs.fly.dev/'}/main`, {
             // const response = await fetch('/upload', {
                 method: 'POST',
                 body: formData,
@@ -118,6 +118,168 @@ export default function GenClientComponent() {
     }
 
 
+    
+    
+    
+    const VideoRecorder = () => {
+                
+        const [permission, setPermission] = useState(false);
+        const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
+        const [audio, setAudio] = useState<Blob | null>(null);
+        const mediaRecorder = useRef<MediaRecorder | null>(null);
+        const liveVideoFeed = useRef<HTMLVideoElement | null>(null);
+        const [recordingStatus, setRecordingStatus] = useState("inactive");
+        const [stream, setStream] = useState<MediaStream | null>(null);
+        const [videoChunks, setVideoChunks] = useState<Blob[]>([]); // Explicitly type as Blob[]
+        const [recordedVideo, setRecordedVideo] = useState<string | null>(null);
+
+        const mimeType = "video/webm";
+
+        const toggleCamera = async () => {
+            if (permission) {
+                // Turn off the camera
+                stream?.getTracks().forEach(track => track.stop());
+                setPermission(false);
+                setStream(null);
+            } else {
+                // Turn on the camera
+                if ("MediaRecorder" in window) {
+                    try {
+                        const streamData = await navigator.mediaDevices.getUserMedia({
+                            audio: true,
+                            video: true,
+                        });
+                        setPermission(true);
+                        setStream(streamData);
+                        if (liveVideoFeed.current) {
+                            liveVideoFeed.current.srcObject = streamData;
+                        }
+                    } catch (err : any) {
+                        alert(err.message);
+                    }
+                } else {
+                    alert("The MediaRecorder API is not supported in your browser.");
+                }
+            }
+        };
+
+        const getMicrophonePermission = async () => {
+            if ("MediaRecorder" in window) {
+                try {
+                    const streamData = await navigator.mediaDevices.getUserMedia({
+                        audio: true,
+                        video: false,
+                    });
+                    setPermission(true);
+                    setStream(streamData);
+                } catch (err : any) {
+                    alert(err.message);
+                }
+            } else {
+                alert("The MediaRecorder API is not supported in your browser.");
+            }
+        };
+    
+        const getCameraPermission = async () => {
+            setRecordedVideo(null);
+            if ("MediaRecorder" in window) {
+                try {
+                    const videoConstraints = {
+                        audio: false,
+                        video: true,
+                    };
+                    const audioConstraints = { audio: true };
+                    // create audio and video streams separately
+                    const audioStream = await navigator.mediaDevices.getUserMedia(
+                        audioConstraints
+                    );
+                    const videoStream = await navigator.mediaDevices.getUserMedia(
+                        videoConstraints
+                    );
+                    setPermission(true);
+                    //combine both audio and video streams
+                    const combinedStream = new MediaStream([
+                        ...videoStream.getVideoTracks(),
+                        ...audioStream.getAudioTracks(),
+                    ]);
+                    setStream(combinedStream);
+                    if (liveVideoFeed.current) {
+                        liveVideoFeed.current.srcObject = combinedStream;
+                    }
+                } catch (err : any) {
+                    alert(err.message);
+                }
+            } else {
+                alert("The MediaRecorder API is not supported in your browser.");
+            }
+        };
+
+        const startRecording = async () => {
+            if (!stream) {
+                alert("No media stream available.");
+                return;
+            }
+            setRecordingStatus("recording");
+            const media = new MediaRecorder(stream, { mimeType });
+            mediaRecorder.current = media;
+            mediaRecorder.current.start();
+            let localVideoChunks: Blob[] = [];
+            mediaRecorder.current.ondataavailable = (event) => {
+                if (typeof event.data === "undefined") return;
+                if (event.data.size === 0) return;
+                localVideoChunks.push(event.data);
+            };
+            setVideoChunks(localVideoChunks);
+        };
+    
+        const stopRecording = () => {
+            if (!mediaRecorder.current) {
+                alert("No media recorder available.");
+                return;
+            }
+            setPermission(false);
+            setRecordingStatus("inactive");
+            mediaRecorder.current.stop();
+            mediaRecorder.current.onstop = () => {
+                const videoBlob = new Blob(videoChunks, { type: mimeType });
+                const videoUrl = URL.createObjectURL(videoBlob);
+                setRecordedVideo(videoUrl);
+                setVideoChunks([]);
+            };
+        };
+
+        return (
+            <div className='w-full flex flex-col justify-between place-items-center place-content-center h-full p-4'>
+                <h2>Video Recorder</h2>
+                <main>
+                    <div className="audio-controls">
+                        {!permission ? (
+                            <button onClick={getCameraPermission} type="button">
+                                Get Camera
+                                </button>                       
+                        ) : null}
+                        {permission && recordingStatus === "inactive" ? (
+                            <button onClick={startRecording} type="button">
+                                Start Recording
+                            </button>
+                        ) : null}
+                        {recordingStatus === "recording" ? (
+                            <button onClick={stopRecording} type="button">
+                                Stop Recording
+                            </button>
+                        ) : null}
+                    </div>
+                    {permission && (
+                        <video ref={liveVideoFeed} autoPlay muted className="w-full h-auto mt-4"></video>
+                    )}
+                </main>
+                <div></div>
+            </div>
+        );
+    };
+
+
+
     return (
         <>
             <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full"/>
@@ -125,7 +287,10 @@ export default function GenClientComponent() {
                 
                 <Sidebar/>
 
-                <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
+                <div className="w-1/2 py-[4%] h-full flex flex-col gap-4 place-items-center place-content-center">
+                    
+                    <VideoRecorder/>
+
                     <input 
                         type="file" 
                         accept="video/*" 
