@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { Player, Script } from "liqvid";
-
+import { BackgroundGradientAnimation } from "../../components/ui/background-gradient-animations";
 
 
 export default function GenClientComponent() {
@@ -76,7 +76,6 @@ export default function GenClientComponent() {
         }
     }      
 
-
     type Marker = [string, string | number];
 
     const markers: Marker[] = [
@@ -122,26 +121,37 @@ export default function GenClientComponent() {
 
     return (
         <>
-            <div className="w-screen h-screen flex items-center justify-center">
-                <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
-                    <p>Test Gen</p>
-                    <input 
-                        type="file" 
-                        accept="video/*" 
-                        ref={fileInputRef} 
-                        onChange={handleFileChange} 
-                        className="w-max bg-blue-300"
-                    />
-                    <button className="p-[3px]" onClick={uploadVideo}>Generate</button>
-                    {/* <button className="p-[3px]" onClick={callJelly}>Generate</button> */}
-                </div>
+            <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full">
+                <div className="w-full h-full flex items-center justify-center">
+                    <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
+                        <p>Test Gen</p>
+                        <input 
+                            type="file" 
+                            accept="video/*" 
+                            ref={fileInputRef} 
+                            onChange={handleFileChange} 
+                            className="w-max bg-blue-300"
+                        />
+                        <button className="p-[3px]" onClick={uploadVideo}>Generate</button>
+                        {/* <button className="p-[3px]" onClick={callJelly}>Generate</button> */}
+                    </div>
 
-                <div className='w-1/2 h-full flex place-items-center place-content-center '>
-                
-                    <MyVideo/>
+                    <div className='w-1/2 h-full flex place-items-center place-content-center '>
+                    
+                        <MyVideo/>
 
+                    </div>
                 </div>
-            </div>
+            </BackgroundGradientAnimation>
         </>
     );
 }
+
+
+// waitlist
+
+// record yourself and see your video
+// generate
+
+// mapped videos in the database
+// explore page
