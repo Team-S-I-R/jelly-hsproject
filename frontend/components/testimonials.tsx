@@ -131,9 +131,9 @@ const testimonials = [
 
 export function Testimonials() {
 	return (
-		<section id="testimonials">
-			<div className="py-14">
-				<div className="mx-auto md:container ">
+		<section className="w-full" id="testimonials">
+			<div className="py-14 w-full">
+				<div className="mx-auto md:container w-full ">
 					<h2 className="text-center text-xl font-semibold text-white">WHAT CUSTOMERS ARE SAYING</h2>
 					<h4 className="text-center text-base font-semibold text-wrap from-inherit text-white pt-5">
 						Join thousands of ambitious people from all over the world making jellies with JellyUp!
@@ -141,12 +141,12 @@ export function Testimonials() {
 					<div className="relative  mt-6 max-w-[100vw] overflow-hidden">
 						<div
 							className={cn(
-								"flex w-full mr-[50%] snap-x snap-mandatory flex-row place-items-s gap-6 overflow-x-auto py-14",
+								"flex  flex-row place-items-s place-content-start gap-6 overflow-x-auto py-14",
 								"[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
 							)}
 						>
-							<div className="size-72 shrink-0 md:h-60 md:min-w-96"></div>
 							{testimonials.map((card, idx) => (
+							// <div className="size-72 bg-red-500 shrink-0 md:h-60 md:min-w-96"></div>
 								<TestimonialCard {...card} key={idx} />
 							))}
 							<div className="size-72 shrink-0 md:h-60 md:min-w-96"></div>
