@@ -48,8 +48,10 @@ export default function Home() {
 	return (
 		<>
 			<Header />
-			<main className="no-scrollbar w-screen h-screen overflow-y-scroll">
-				{/* <BackgroundGradientAnimation className="!absolute w-full h-full"/> */}
+			<main className="no-scrollbar bg-transparent w-screen h-screen overflow-y-scroll">
+				<div className="absolute z-[-1] w-full h-full">
+					<BackgroundGradientAnimation className="w-full h-full"/>
+				</div>
 				<div className="w-full h-[20%]"></div>
 				<div className="flex flex-col w-full  gap-4 h-max">
 					
