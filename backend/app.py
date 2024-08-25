@@ -53,6 +53,11 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+@app.route("/")
+def home():
+    return handle_200_json(message="200: SUCCESSFULLY CONNECTED. WELCOME!")
+
+
 @app.route("/main", methods=['POST'])
 def transcribe():
     """
