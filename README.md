@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="#">
-    <img src="./logo.png" alt="Logo Here" height="150">
+    <img src="repo-assets/jellyup-high-resolution-logo-black-transparent.png" alt="Logo Here" height="150">
   </a>
 
 <h3 align="center">
