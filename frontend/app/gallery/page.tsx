@@ -15,7 +15,7 @@ export default function GalleryClientComponent({ videos }: GalleryClientComponen
   // Function to calculate dynamic width and height
   const calculateDimensions = (index: number) => {
     const baseWidth = 400;
-    const baseHeight = 300;
+    const baseHeight = 450;
     const width = baseWidth + (index % 3) * 50; // Example dynamic width calculation
     const height = baseHeight + (index % 3) * 50; // Example dynamic height calculation
     return { width, height };
@@ -23,32 +23,36 @@ export default function GalleryClientComponent({ videos }: GalleryClientComponen
 
   return (
     <>
-      <div className="w-screen h-screen overflow-y-scroll">
+      <div className="no-scrollbar w-screen h-screen overflow-y-scroll">
         <div className="w-full h-full flex p-2 gap-6 place-items-start">
          
          <Sidebar />
 
-          <div className="w-full h-full flex flex-col p-4 place-items-start">
-              {/* <h1 className="text-5xl bg-clip-text text-transparent drop-shadow-2xl bg-gradient-to-b from-white to-white/70 p-2 select-none">
-                Gallery
-              </h1> */}
+          <div className="w-full h-full overflow-y-scroll no-scrollbar flex flex-col p-4 place-items-start">
+            <div className="w-full h-full">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-4">
-              {videos?.map((video, index) => {
-                const { width, height } = calculateDimensions(index);
-                return (
-                  <BlurFade className="overflow-hidden rounded-lg" key={index} delay={0.25 + index * 0.10} inView>
+              {videos?.slice().reverse().map((video, index) => {
+                // const { width, height } = calculateDimensions(index);
+                return (  
+                  
+                  <BlurFade className="overflow-hidden rounded-lg h-[450px]" key={index} delay={0.25 + index * 0.10} inView>
                     <div
-                      style={{ width: `${width}px`, height: `${height}px` }}
+                    className="w-full h-full"
+                      // style={{ width: `${width}px`, height: `${height}px` }}
                     >
+                      
                       <video muted autoPlay loop className="w-full h-full object-cover">
                         <source src={video.url} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video>
                     </div>
+
                   </BlurFade>
                 );
               })}
               </div>
+            </div>
+
             </div>
 
         </div>

@@ -3,12 +3,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Player, Script, Controls } from "liqvid";
 import { BackgroundGradientAnimation } from "../../components/ui/background-gradient-animations";
+import Sidebar from '../sidebar';
+import { motion } from 'framer-motion';
 
 
 export default function GenClientComponent() {
     const [videoFile, setVideoFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [videoUrl, setVideoUrl] = useState<string>('/testvid.mp4'); // Reference the file directly
+    const [isLoading, setIsLoading] = useState(false);
 
     // Function to handle file input change
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +27,9 @@ export default function GenClientComponent() {
             alert('Please select a video file.');
             return;
         }
+
+        setIsLoading(true);
+
         const formData = new FormData();
         formData.append('file', videoFile);
 
@@ -42,11 +48,15 @@ export default function GenClientComponent() {
             const data = await response.json(); // Assuming response is a file (e.g., transcript)
             setVideoUrl(data.url);
 
+            setIsLoading(false);
+
         } catch (error) {
             console.error('Error uploading video file:', error);
         }
     };
 
+    // this connects to the jelly api....but there were many issues after connection like videos not even being created
+    // able to record. Also we were able to actually save the video even if we were able to record.
     const callJelly = async () => {
         try {
             console.log('Calling createJelly API');
@@ -112,6 +122,9 @@ export default function GenClientComponent() {
         <>
             <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full"/>
             <div className="w-screen h-screen flex items-center justify-center">
+                
+                <Sidebar/>
+
                 <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
                     <input 
                         type="file" 
@@ -120,14 +133,34 @@ export default function GenClientComponent() {
                         onChange={handleFileChange} 
                         className="w-max p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
-                    <button className="p-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300" onClick={uploadVideo}>Generate</button>
+                       
+                    {isLoading === false && (
+                            <>
+                            <motion.button 
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="p-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300" onClick={uploadVideo}>Generate</motion.button>
+                            </>
+                    )}
+
+                    {isLoading === true && (
+                        <>
+                        <motion.button 
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="p-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300" onClick={uploadVideo}>Generating Video....</motion.button>
+                        </>
+                    )}
+
                 </div>
 
                 <div className='w-[50%] h-[100%] flex place-items-center place-content-center '>
                     {script && (
-                        <Player  className='' script={script}>
-                           <video src={videoUrl}></video>
-                        </Player>
+                        <video autoPlay muted src={videoUrl}></video>
+                        // <Player  className='' script={script}>
+                        // </Player>
                     )}
                 </div>
             </div>

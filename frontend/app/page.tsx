@@ -111,6 +111,7 @@ export default function Home() {
 					<div className="w-full flex place-items-center place-content-center h-[500px] place-content-center">
 
 					<motion.div className="w-1/2 h-[500px] place-content-center  my-4  flex flex-col gap-2 place-items-center">
+							<p className="text-3xl py-7">Join the Wait list for Official Release</p>
 							<motion.form
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
