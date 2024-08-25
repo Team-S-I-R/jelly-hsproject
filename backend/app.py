@@ -3,7 +3,8 @@ import time
 import requests
 
 from flask import Flask, jsonify, request
-# do not change this
+
+# NOTE: DO NOT CHANGE THIS!
 from flask_cors import CORS
 from config.log import logger as log
 from dotenv import load_dotenv
