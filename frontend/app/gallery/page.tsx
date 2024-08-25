@@ -5,17 +5,9 @@ import BlurFade from "@/components/magicui/blur-fade";
 import Sidebar from "../sidebar";
 import { useState } from "react";
 
-interface Video {
-  url: string;
-}
 
-interface GalleryClientComponentProps {
-  initialVideos: Video[];
-}
-
-export default function GalleryClientComponent({ initialVideos }: GalleryClientComponentProps) {
+export default function GalleryClientComponent({ initialVideos }: any) {
   // Function to calculate dynamic width and height
-  const [videos, setVideos] = useState<Video[]>(initialVideos);
 
   const calculateDimensions = (index: number) => {
     const baseWidth = 400;
@@ -35,7 +27,7 @@ export default function GalleryClientComponent({ initialVideos }: GalleryClientC
           <div className="w-full h-full overflow-y-scroll no-scrollbar flex flex-col p-4 place-items-start">
             <div className="w-full h-full">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-4">
-              {videos.slice().reverse().map((video, index) => {
+              {initialVideos?.slice().reverse().map((video: any, index: number) => {
                 // const { width, height } = calculateDimensions(index);
                 return (  
                   

@@ -32,6 +32,7 @@ CORS(app, origins=[
     "0.0.0.0:5000", 
     "http://localhost:3001", 
     "http://localhost:3002", 
+    "https://jellyup.vercel.app/",
 ])
 
 nltk.download('vader_lexicon')
