@@ -57,10 +57,14 @@ def convert_mp4_to_wav(file_path: str) -> str | None:
 
     try:
         normalized_path = os.path.normpath(file_path)  # Normalized path
+        
+        # ./temp and the xxx.mp4
         directory, filename = os.path.split(normalized_path)
 
+        # xxx.mp4
         filename_without_ext = os.path.splitext(filename)[0]
 
+        # building new path for wav 
         output_wav = os.path.join(directory, f"{filename_without_ext}.wav")
         log.info(f"Processing {normalized_path} in {directory}")
 

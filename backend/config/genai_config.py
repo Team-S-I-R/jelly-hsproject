@@ -54,13 +54,14 @@ def process_audio(song):
     first_10_minutes = song[:ten_minutes]
     first_10_minutes.export("./temp/good_morning_10.wav", format="wav")
 
-    audio_file = open("./temp/good_morning_10.wav", "rb")
-    transcript = client.audio.transcriptions.create(
-        file=audio_file,
-        model="whisper-1",
-        response_format="verbose_json",
-        timestamp_granularities=["word"]
-    )
+    audio_file_path = "./temp/good_morning_10.wav"
+    with open(audio_file_path, "rb") as audio_file:
+        transcript = client.audio.transcriptions.create(
+            file=audio_file,
+            model="whisper-1",
+            response_format="verbose_json",
+            timestamp_granularities=["word"]
+        )
 
     system = (
         "You are a subtitle generator. I will provide you with a transcript of a video, and I need you to format it "

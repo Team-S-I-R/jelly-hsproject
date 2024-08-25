@@ -84,27 +84,44 @@ def transcribe():
         print(f"Input_Path: {input_path}")
         output_path = './temp/captioned_Video.mp4'
         
+        # ✅ this return the original mp4 and wav
         convertedWav = convert_mp4_to_wav(input_path)
-        
-        # # TODO: Transcribe .wav file to text using AI (config/transcribe_config.py)
-        # # TODO: Return transcribed text in JSON
         time.sleep(2)
+
+        #  (this is a chunk of the full wav if its too long)
+        # ✅ this saves good_morning_10.wav
+        # ✅ this ALSO saves responses.srt
         captions_path = process_audio(convertedWav)
 
-        # TODO: Turn captions into s .srt file (captions file)
+        # ✅ this returns captioned_Video.mp4
         add_ct = add_captions(input_path, output_path, captions_path)
         
-        # TODO: Store in Database (TBD)
+        # this unloads captioned_Video.mp4 to supabase
         upload = upload_file_to_supabase(add_ct, filename)
         time.sleep(1)
         
-        # TODO: Delete files
+        # Delete files
         new_filename = filename.replace('.mp4', '.wav')
+        
+        # removes the FULL wav
         os.remove(f'./temp/{filename}')
         time.sleep(1)
-        os.remove(f'./temp/{new_filename}')    
+
+        # this removes the mp4
+        os.remove(f'./temp/{new_filename}')     
         time.sleep(1)
-        os.remove('./temp/captioned_Video.mp4')
+
+
+        # this removes the captioned_Video.mp4 ✅
+        os.remove(f'./temp/captioned_Video.mp4')
+        time.sleep(1)
+
+        # this removes the srt  
+        os.remove(f'./temp/response.srt')
+        time.sleep(1)
+
+        # this removes the wav CHUNK
+        os.remove(f'./temp/good_morning_10.wav')
         time.sleep(1)
 
         return jsonify({
