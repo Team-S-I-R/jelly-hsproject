@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for jelly-up-hs-hackathon on 2024-08-25T05:11:31-04:00
+# fly.toml app configuration file generated for jelly-up-hs-hackathon on 2024-08-25T12:48:24-04:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -9,13 +9,22 @@ primary_region = 'yyz'
 [build]
   dockerfile = 'Dockerfile'
 
-[http_service]
+[env]
+  FLASK_APP = 'app.py'
+  FLASK_ENV = 'development'
+
+[[services]]
+  protocol = 'tcp'
   internal_port = 5000
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
   processes = ['app']
+
+[[services.ports]]
+  handlers = ["http"]
+  port = 5000
 
 [[vm]]
   memory = '1gb'
