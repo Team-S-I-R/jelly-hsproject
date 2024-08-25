@@ -289,7 +289,7 @@ export default function GenClientComponent() {
 
                 <div className="w-1/2 py-[4%] h-full flex flex-col gap-4 place-items-center place-content-center">
                     
-                    <VideoRecorder/>
+                    {/* <VideoRecorder/> */}
 
                     <input 
                         type="file" 
