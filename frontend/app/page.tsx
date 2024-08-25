@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { BackgroundGradientAnimation } from "../components/ui/background-gradient-animations";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,15 @@ import { WobbleCardGrid } from "@/components/wobble-grid";
 import Header from "./header";
 
 export default function Home() {
+
+	const mainel = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (mainel.current) {
+			mainel.current.scrollTo(0, 0);
+		}
+	}, []);
+
 	const { toast } = useToast();
 
 	type FormState = {
@@ -45,10 +54,11 @@ export default function Home() {
 		message: "",
 	});
 
+
 	return (
 		<>
 			<Header />
-			<main className="no-scrollbar bg-transparent w-screen h-screen overflow-y-scroll">
+			<main ref={mainel} className="bg-transparent w-screen h-screen overflow-y-scroll">
 				<div className="absolute z-[-1] w-full h-full">
 					<BackgroundGradientAnimation className="w-full h-full"/>
 				</div>
@@ -95,11 +105,12 @@ export default function Home() {
 							</motion.div>
 						</motion.div>
 
+
 					</div>
 
+					<div className="w-full flex place-items-center place-content-center h-[500px] place-content-center">
 
-					{/* JellyUp WaitList Form */}
-					{/* <motion.div className="w-1/2 relative z-10 my-4  flex flex-col gap-2 place-items-center">
+					<motion.div className="w-1/2 h-[500px] place-content-center  my-4  flex flex-col gap-2 place-items-center">
 							<motion.form
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
@@ -136,7 +147,13 @@ export default function Home() {
 							>
 								Join the Waitlist!
 							</motion.p>
-					</motion.div> */}
+					</motion.div>
+
+					</div>
+
+					{/* JellyUp WaitList Form */}
+					{/* <div className="w-full h-max flex flex-col place-items-center place-content-center">
+					</div> */}
 
 				</div>
 			</main>

@@ -7,7 +7,7 @@ export default function Sidebar() {
     return (
         <>
         <div className="z-10 text-white justify-between flex-col p-9 place-items-start w-full hidden sm:flex sm:max-w-[50px] md:max-w-[100px] lg:max-w-[200px] h-full">
-            <p className="text-xl">Jelly</p>
+            <p className="text-xl">Jelly Up!</p>
             <div className="flex flex-col gap-4">
                 
                 <div className='flex gap-5'>

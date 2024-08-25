@@ -108,10 +108,11 @@ def add_captions(input_path, output_path, captions_path, filter_type=None):
     captions = parse_srt(captions_path)
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 0.5
-    font_thickness = 1
+    font_scale = 1.0  # Increase the font scale to make the text bigger
+    font_thickness = 3  # Increase the font thickness to make the text thicker
     color = (255, 255, 255)
-    margin = 10
+    border_color = (0, 0, 0)  # Black border color
+    margin = 20  # Increase the margin to add more space between lines
     max_width = width - 2 * margin
 
     caption_index = 0
@@ -142,7 +143,11 @@ def add_captions(input_path, output_path, captions_path, filter_type=None):
             text_size, _ = cv2.getTextSize(line, font, font_scale, font_thickness)
             text_width = text_size[0]
             text_x = int((width - text_width) / 2)
-            cv2.putText(frame, line, (text_x, y), font, font_scale, color, font_thickness, cv2.LINE_AA)
+            
+            # Draw the border
+            cv2.putText(frame, line, (text_x, y - 60), font, font_scale, border_color, font_thickness + 2, cv2.LINE_AA)
+            # Draw the text
+            cv2.putText(frame, line, (text_x, y - 60), font, font_scale, color, font_thickness, cv2.LINE_AA)
             y -= (line_height + margin)
 
         out.write(frame)

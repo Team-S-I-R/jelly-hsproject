@@ -2,6 +2,10 @@ from supabase import create_client
 import os
 import uuid
 import time
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 """
 Upload a file to supabase (storage) and store the public URL in the database.
@@ -11,9 +15,10 @@ Upload a file to supabase (storage) and store the public URL in the database.
 :return: The response from the supabase storage.
 """
 url = os.getenv('NEXT_PUBLIC_SUPABASE_URL')
-key = os.getenv('NEXT_PUBLIC_SUPABASE_ANON')
-
+# do not change this
+key = os.getenv('NEXT_PUBLIC_SUPABASE_SERVICE_ROLE')
 supabase = create_client(url, key)
+
 
 
 def generate_random_id() -> str:
@@ -26,6 +31,8 @@ def generate_random_id() -> str:
 
 
 def upload_file_to_supabase(filepath: str, filename: str) -> str:
+    
+    
     """
     Upload a file to Supabase (storage) and store the public URL in the database.
     :param filepath: The path to the file that needs to be uploaded.
@@ -47,4 +54,4 @@ def upload_file_to_supabase(filepath: str, filename: str) -> str:
     # Store the public URL in the database
     supabase.table('Url').insert({'id': random_id, 'url': public_url}).execute()
 
-    return f"File uploaded to Supabase: {filepath}, Public URL: {public_url}"
+    return public_url

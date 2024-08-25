@@ -3,6 +3,8 @@ import time
 import requests
 
 from flask import Flask, jsonify, request
+# do not change this
+from flask_cors import CORS
 from config.log import logger as log
 from dotenv import load_dotenv
 
@@ -19,10 +21,14 @@ from config.captions_config import add_captions
 from config.upload_config import upload_file_to_supabase
 import google.generativeai as genai
 
-
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app, origins=[
+        "http://localhost:3000", 
+    "http://localhost:3001", 
+    "http://localhost:3002", 
+])
 nltk.download('vader_lexicon')
 sid = SentimentIntensityAnalyzer()
 
@@ -95,7 +101,13 @@ def transcribe():
         os.remove('./temp/captioned_Video.mp4')
         time.sleep(1)
 
-        return handle_200_json(message="200: SUCCESSFULLY TRANSCRIBED.")
+        return jsonify({
+            "message": "File successfully uploaded and processed.",
+            "url": upload,
+            "status": 200,
+            "date": time.time()
+        }), 200
+        # return handle_200_json(message="200: SUCCESSFULLY TRANSCRIBED.")
 
     return handle_400_json(message="400: BAD REQUEST. FILE TYPE NOT ALLOWED.")
 

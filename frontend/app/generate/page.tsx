@@ -39,16 +39,9 @@ export default function GenClientComponent() {
                 throw new Error('Failed to upload video');
             }
 
-            const data = await response.blob(); // Assuming response is a file (e.g., transcript)
-            const url = URL.createObjectURL(data);
+            const data = await response.json(); // Assuming response is a file (e.g., transcript)
+            setVideoUrl(data.url);
 
-            // You can handle the response file here, e.g., show a download link
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'transcript.txt'; // Adjust the filename based on your backend's response
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
         } catch (error) {
             console.error('Error uploading video file:', error);
         }
@@ -120,23 +113,20 @@ export default function GenClientComponent() {
             <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full"/>
             <div className="w-screen h-screen flex items-center justify-center">
                 <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
-                    <p>Test Gen</p>
                     <input 
                         type="file" 
                         accept="video/*" 
                         ref={fileInputRef} 
                         onChange={handleFileChange} 
-                        className="w-max bg-blue-300"
+                        className="w-max p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
-                    <button className="p-[3px]" onClick={uploadVideo}>Generate</button>
-                    {/* <button className="p-[3px]" onClick={callJelly}>Generate</button> */}
+                    <button className="p-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300" onClick={uploadVideo}>Generate</button>
                 </div>
 
-                <div className='w-[50%] bg-blue-300 h-[100%] flex place-items-center place-content-center '>
+                <div className='w-[50%] h-[100%] flex place-items-center place-content-center '>
                     {script && (
                         <Player  className='' script={script}>
-                            <Intro/>
-                            <Plan/>
+                           <video src={videoUrl}></video>
                         </Player>
                     )}
                 </div>

@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import GalleryClientComponent from './page';
 import { PrismaClient } from '@prisma/client';
 
@@ -27,6 +28,8 @@ async function fetchAllUrls() {
 export default async function GenServerComponent() {    
 
     const videoUrls = await fetchAllUrls();
+
+    revalidatePath('/gallery');
 
     return (
         <>

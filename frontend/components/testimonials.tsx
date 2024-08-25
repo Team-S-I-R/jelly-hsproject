@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { StarFilledIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 export const Highlight = ({
 	children,
@@ -136,8 +137,15 @@ export function Testimonials() {
 				<div className="mx-auto md:container w-full ">
 					<h2 className="text-center text-xl font-semibold text-white">WHAT CUSTOMERS ARE SAYING</h2>
 					<h4 className="text-center text-base font-semibold text-wrap from-inherit text-white pt-5">
-						Join thousands of ambitious people from all over the world making jellies with JellyUp!
+						Join thousands of ambitious people from all over the world making jellies with Jelly Up!
 					</h4>
+					<div className="flex place-content-center p-8 gap-5 w-full h-max">
+						{/* <button className="w-[150px] p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg">Generate</button> */}
+						
+						<Link href="/gallery">
+							<button className="w-[150px] hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-400 hover:scale-105 p-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg">Explore</button>
+						</Link>
+					</div>
 					<div className="relative  mt-6 max-w-[100vw] overflow-hidden">
 						<div
 							className={cn(
