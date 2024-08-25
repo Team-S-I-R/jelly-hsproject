@@ -84,6 +84,8 @@ def transcribe():
         # time.sleep(2)
         # print("removing temporary files...")
        
+        
+
         # os.remove(wav_path)
         # os.remove(file_path)
         
