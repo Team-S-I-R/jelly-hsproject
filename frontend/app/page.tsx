@@ -10,10 +10,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { ConfettiButton } from "@/components/magicui/confetti";
 import { Testimonials } from "@/components/testimonials";
 import { WobbleCardGrid } from "@/components/wobble-grid";
+import Link from "next/link";
 import Header from "./header";
 
 export default function Home() {
-
 	const mainel = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -54,18 +54,18 @@ export default function Home() {
 		message: "",
 	});
 
-
 	return (
 		<>
 			<Header />
-			<main ref={mainel} className="bg-transparent w-screen h-screen overflow-y-scroll">
+			<main
+				ref={mainel}
+				className="bg-transparent w-screen h-screen overflow-y-scroll"
+			>
 				<div className="absolute z-[-1] w-full h-full">
-					<BackgroundGradientAnimation className="w-full h-full"/>
+					<BackgroundGradientAnimation className="w-full h-full" />
 				</div>
 				<div className="w-full h-[20%]"></div>
 				<div className="flex flex-col w-full  gap-4 h-max">
-					
-
 					<div className="w-full h-max flex flex-col place-items-center place-content-center">
 						{/* Jelly Title */}
 						<div className="w-1/2 h-max z-50 inset-0 flex flex-col place-items-center place-content-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl">
@@ -77,7 +77,15 @@ export default function Home() {
 									The Fastest Way to Post Brilliant Video Chats.
 								</p>
 							</div>
-						</div>	
+						</div>
+						<div className="flex place-content-center p-8 gap-5 w-full h-max">
+							<Link
+								href="/gallery"
+								className="hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-400 hover:scale-105 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg p-3.5 text-white text-center"
+							>
+								Explore Gallery
+							</Link>
+						</div>
 					</div>
 
 					{/* Testimonials */}
@@ -92,26 +100,25 @@ export default function Home() {
 						</motion.div>
 					</motion.div>
 
+					{/* WobbleCardGrid */}
 					<div className="w-full h-[80%] px-8 flex flex-col place-items-center place-content-center">
-						
-						{/* WobbleCardGrid */}
 						<motion.div className="w-full my-4 flex flex-col gap-2 place-items-center">
 							<motion.div
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 1.7 }}
 							>
-								<WobbleCardGrid/>
+								<WobbleCardGrid />
 							</motion.div>
 						</motion.div>
-
-
 					</div>
 
-					<div className="w-full flex place-items-center place-content-center h-[500px] place-content-center">
-
-					<motion.div className="w-1/2 h-[500px] place-content-center  my-4  flex flex-col gap-2 place-items-center">
-							<p className="text-3xl py-7">Join the Wait list for Official Release</p>
+					{/* WaitList Form */}
+					<div className="w-full flex place-items-center h-[500px] place-content-center">
+						<motion.div className="w-1/2 h-[500px] place-content-center  my-4  flex flex-col gap-2 place-items-center">
+							<p className="text-3xl py-7">
+								Join the Waitlist for Official Release
+							</p>
 							<motion.form
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
@@ -148,14 +155,8 @@ export default function Home() {
 							>
 								Join the Waitlist!
 							</motion.p>
-					</motion.div>
-
+						</motion.div>
 					</div>
-
-					{/* JellyUp WaitList Form */}
-					{/* <div className="w-full h-max flex flex-col place-items-center place-content-center">
-					</div> */}
-
 				</div>
 			</main>
 		</>
