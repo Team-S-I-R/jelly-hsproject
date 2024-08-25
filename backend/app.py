@@ -25,9 +25,9 @@ load_dotenv()
 
 app = Flask(__name__)
 CORS(app, origins=[
-        "http://localhost:3000", 
-    "http://localhost:3001", 
-    "http://localhost:3002", 
+        "http://localhost:3000",
+        "http://localhost:3002",
+        "http://localhost:3001",
 ])
 nltk.download('vader_lexicon')
 sid = SentimentIntensityAnalyzer()
