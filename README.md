@@ -26,7 +26,13 @@
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Architecture Diagram](#architecture-diagram)
+- [Tech Stack](#tech-stack)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+  - [Development Tools](#development-tools)
+  - [Additional Tools](#additional-tools)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -88,45 +94,47 @@ Ensure you have the following installed on your machine:
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/NautilusAI/Customer-Support-AI.git .
-   ```
+```bash
+git clone https://github.com/NautilusAI/Customer-Support-AI.git .
+```
 
-   > **Note**: The `.` at the end of the command clones the repository into the current directory instead of creating a new directory.
+> **Note**: The `.` at the end of the command clones the repository into the current directory instead of creating a new directory.
 
 2. Navigate to the frontend directory and install the dependencies:
-   ```bash
-   cd ./frontend
-   npm install
-   ```
+```bash
+cd ./frontend
+npm install
+```
 
 3. You can now run the application locally. It is recommended to use the `run.cmd` command to start the application:
-   ```bash
-   .\run.cmd
-   ```
+```bash
+.\run.cmd
+```
 
-   Alternatively, you can start the application using:
-   ```bash
-   npm run dev
-   ```
+Alternatively, you can start the application using:
+```bash
+npm run dev
+```
 
-   If you prefer not to use `npm`, you can also use `yarn`, `pnpm`, or `bun`:
-   ```bash
-   yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
-   ```
+If you prefer not to use `npm`, you can also use `yarn`, `pnpm`, or `bun`:
+```bash
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
    > **Note**: If you encounter issues, please check the `package.json` file for the correct command.
+
 ### Usage
 
 To access the application, navigate to: 
 ```bash
 http://localhost:3000
+```
 
-   > **NOTE**: All applications build using Next.js will usually run on port `3000`, but this can be changed within the `next.config.js` file.
+> **NOTE**: All applications build using Next.js will usually run on port `3000`, but this can be changed within the `next.config.js` file.
 
 ## License
 
