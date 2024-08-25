@@ -18,15 +18,12 @@ export default function GenClientComponent() {
         }
     };
 
-    
-
     // Function to upload the video file to the backend
     const uploadVideo = async () => {
         if (!videoFile) {
             alert('Please select a video file.');
             return;
         }
-
         const formData = new FormData();
         formData.append('file', videoFile);
 
@@ -121,28 +118,25 @@ export default function GenClientComponent() {
 
     return (
         <>
-            <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full">
-                <div className="w-full h-full flex items-center justify-center">
-                    <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
-                        <p>Test Gen</p>
-                        <input 
-                            type="file" 
-                            accept="video/*" 
-                            ref={fileInputRef} 
-                            onChange={handleFileChange} 
-                            className="w-max bg-blue-300"
-                        />
-                        <button className="p-[3px]" onClick={uploadVideo}>Generate</button>
-                        {/* <button className="p-[3px]" onClick={callJelly}>Generate</button> */}
-                    </div>
+          <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full"/>
+          <div className="w-full h-full flex items-center justify-center">
+              <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
+                  <p>Test Gen</p>
+                  <input 
+                      type="file" 
+                      accept="video/*" 
+                      ref={fileInputRef} 
+                      onChange={handleFileChange} 
+                      className="w-max bg-blue-300"
+                  />
+                  <button className="p-[3px]" onClick={uploadVideo}>Generate</button>
+                  {/* <button className="p-[3px]" onClick={callJelly}>Generate</button> */}
+              </div>
 
-                    <div className='w-1/2 h-full flex place-items-center place-content-center '>
-                    
-                        <MyVideo/>
-
-                    </div>
-                </div>
-            </BackgroundGradientAnimation>
+              <div className='w-1/2 h-full flex place-items-center place-content-center '>
+                  <MyVideo/>
+              </div>
+          </div>
         </>
     );
 }
