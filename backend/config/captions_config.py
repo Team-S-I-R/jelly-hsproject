@@ -144,7 +144,8 @@ def add_captions(input_path, output_path, captions_path, filter_type=None):
     
     cap.release()
     out.release()
-    
-    # this returns the file path of the output video
-    print (f'Video saved to: {output_path}')
+
     return output_path
+
+   
+
