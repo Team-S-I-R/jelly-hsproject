@@ -133,15 +133,15 @@ export function Testimonials() {
 	return (
 		<section id="testimonials">
 			<div className="py-14">
-				<div className="mx-auto md:container md:px-8">
+				<div className="mx-auto md:container ">
 					<h2 className="text-center text-xl font-semibold text-white">WHAT CUSTOMERS ARE SAYING</h2>
 					<h4 className="text-center text-base font-semibold text-wrap from-inherit text-white pt-5">
 						Join thousands of ambitious people from all over the world making jellies with JellyUp!
 					</h4>
-					<div className="relative mx-auto mt-6 max-w-[100vw] overflow-hidden">
+					<div className="relative  mt-6 max-w-[100vw] overflow-hidden">
 						<div
 							className={cn(
-								"flex w-full snap-x snap-mandatory flex-row gap-6 overflow-x-auto py-14",
+								"flex w-full mr-[50%] snap-x snap-mandatory flex-row place-items-s gap-6 overflow-x-auto py-14",
 								"[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
 							)}
 						>
