@@ -5,9 +5,9 @@ import BlurFade from "@/components/magicui/blur-fade";
 import Sidebar from "../sidebar";
 import { useState } from "react";
 
-type Video = {
+interface Video {
   url: string;
-};
+}
 
 interface GalleryClientComponentProps {
   initialVideos: Video[];
@@ -16,7 +16,6 @@ interface GalleryClientComponentProps {
 export default function GalleryClientComponent({ initialVideos }: GalleryClientComponentProps) {
   // Function to calculate dynamic width and height
   const [videos, setVideos] = useState<Video[]>(initialVideos);
-
 
   const calculateDimensions = (index: number) => {
     const baseWidth = 400;

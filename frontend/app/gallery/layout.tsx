@@ -1,21 +1,18 @@
 import { revalidatePath } from 'next/cache';
-import GalleryClientComponent from './gallery';
+import GalleryClientComponent from './page';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Define the structure of a Video object
-type Video = {
-    url: string;
-};
-
-async function fetchAllUrls(): Promise<Video[]> {
+async function fetchAllUrls(): Promise<string[]> {
     try {
         const result = await prisma.$queryRaw<{ url: string | null }[]>`
             SELECT url FROM fetch_all_urls();
         `;
         console.log('Fetched URLs:', result);
-        return result.map(item => ({ url: item.url || '' }));
+        return result
+            .map(item => item.url)
+            .filter((url): url is string => url !== null);
     } catch (error) {
         console.error('Error fetching URLs:', error);
         throw new Error('Internal Server Error');
@@ -25,9 +22,9 @@ async function fetchAllUrls(): Promise<Video[]> {
 }
 
 export default async function GalleryPage() {    
-    const videos = await fetchAllUrls();
+    const urls = await fetchAllUrls();
     
     revalidatePath('/gallery');
 
-    return <GalleryClientComponent initialVideos={videos} />;
+    return <GalleryClientComponent initialVideos={urls.map(url => ({ url }))} />;
 }
