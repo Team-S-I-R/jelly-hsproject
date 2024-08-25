@@ -78,22 +78,22 @@ export default function GenClientComponent() {
 
     type Marker = [string, string | number];
 
-    const markers: Marker[] = [
-        ["intro/", "0:01.5"],
-        ["intro/world", "0:01.5"],
-        ["plan/", "0:01"],
-        ["plan/1", "0:01"],
-        ["plan/2", "0:01"],
-        ["plan/3", "0:01"]
-    ];
+    // const markers: Marker[] = [
+    //     ["intro/", "0:01.5"],
+    //     ["intro/world", "0:01.5"],
+    //     ["plan/", "0:01"],
+    //     ["plan/1", "0:01"],
+    //     ["plan/2", "0:01"],
+    //     ["plan/3", "0:01"]
+    // ];
 
-    const [script, setScript] = useState<Script | null>(null);
+    // const [script, setScript] = useState<Script | null>(null);
 
-    // ALL OF THE REACT STUFF THAT NEEDS TO HAPPEN WILL HAPPEN FIRST
-    useEffect(() => {
-        // AND THEN THE PLAYER WILL TRY TO RENDER
-        setScript(new Script(markers));
-    }, []);
+    // // ALL OF THE REACT STUFF THAT NEEDS TO HAPPEN WILL HAPPEN FIRST
+    // useEffect(() => {
+    //     // AND THEN THE PLAYER WILL TRY TO RENDER
+    //     setScript(new Script(markers));
+    // }, [markers]);
 
 
     function Intro() {
@@ -322,11 +322,11 @@ export default function GenClientComponent() {
                 </div>
 
                 <div className='w-[50%] h-[100%] flex place-items-center place-content-center '>
-                    {script && (
+                    {/* {script && ( */}
                         <video autoPlay muted src={videoUrl}></video>
-                        // <Player  className='' script={script}>
-                        // </Player>
-                    )}
+                        {/* // <Player  className='' script={script}> */}
+                        {/* // </Player> */}
+                    {/* )} */}
                 </div>
             </div>
         </>

@@ -1,18 +1,23 @@
-
 // Define the structure of a Video object
+'use client'
+
 import BlurFade from "@/components/magicui/blur-fade";
 import Sidebar from "../sidebar";
+import { useState } from "react";
 
 type Video = {
-  url: string; // URL of the video
+  url: string;
 };
 
 interface GalleryClientComponentProps {
-  videos: Video[]; // Array of Video objects
+  initialVideos: Video[];
 }
 
-export default function GalleryClientComponent({ videos }: GalleryClientComponentProps) {
+export default function GalleryClientComponent({ initialVideos }: GalleryClientComponentProps) {
   // Function to calculate dynamic width and height
+  const [videos, setVideos] = useState<Video[]>(initialVideos);
+
+
   const calculateDimensions = (index: number) => {
     const baseWidth = 400;
     const baseHeight = 450;
@@ -31,7 +36,7 @@ export default function GalleryClientComponent({ videos }: GalleryClientComponen
           <div className="w-full h-full overflow-y-scroll no-scrollbar flex flex-col p-4 place-items-start">
             <div className="w-full h-full">
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 p-4">
-              {videos?.slice().reverse().map((video, index) => {
+              {videos.slice().reverse().map((video, index) => {
                 // const { width, height } = calculateDimensions(index);
                 return (  
                   
