@@ -14,6 +14,8 @@ from config.error_config import register_error_handlers
 from config.convert_config import convert_mp4_to_wav
 from handler.error_handler import handle_200_json, handle_400_json, handle_404_json, handle_429_json
 from werkzeug.utils import secure_filename
+from config.genai_config import process_audio
+from config.captions_config import add_captions
 import google.generativeai as genai
 
 
