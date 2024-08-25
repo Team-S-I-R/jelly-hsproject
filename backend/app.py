@@ -16,6 +16,7 @@ from handler.error_handler import handle_200_json, handle_400_json, handle_404_j
 from werkzeug.utils import secure_filename
 from config.genai_config import process_audio
 from config.captions_config import add_captions
+from config.upload_config import upload_file_to_supabase
 import google.generativeai as genai
 
 
@@ -81,22 +82,30 @@ def transcribe():
         # # TODO: Tunr captions into s .srt file (captions file)
         add_ct = add_captions(input_path, output_path, captions_path)
         # # TODO: Store in Database (TBD)
-        # upload = upload_file_to_supabase(convertedWav)
+        upload = upload_file_to_supabase(add_ct)
         # # TODO: Return video url
         # print("Done!")
         # return add_ct
         # # TODO: Delete .wav file ./uploads
         # # TODO: Delete .mp4 file from ./temp
-        
+        time.sleep(1)
         # log.info(f"Temporary files removed: {wav_path} and {file_path}")
         
         # time.sleep(2)
         # print("removing temporary files...")
        
-        
+        new_filename = filename.replace('.mp4', '.wav')
+        os.remove(f'./temp/{filename}')
+        time.sleep(1)
+        os.remove(f'./temp/{new_filename}')    
+        time.sleep(1)
+        os.remove('./temp/captioned_Video.mp4')
+        time.sleep(1)
+        # os.remove('./temp/good_morning_10.wav')
+        # time.sleep(1)
+        # os.remove('./temp/response.srt')
+        # time.sleep(1)
 
-        # os.remove(wav_path)
-        # os.remove(file_path)
         return handle_200_json(message="200: SUCCESSFULLY TRANSCRIBED.")
 
     return handle_400_json(message="400: BAD REQUEST. FILE TYPE NOT ALLOWED.")
