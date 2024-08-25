@@ -52,7 +52,7 @@ def convert_mp4_to_wav(file_path: str) -> str | None:
     :param file_path: The path to the .mp4 file.
     :return: The path to the converted .wav file.
     """
-
+    
     is_valid_extension(file_path)
 
     try:
