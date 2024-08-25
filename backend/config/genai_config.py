@@ -4,7 +4,7 @@ from pydub import AudioSegment
 from openai import OpenAI
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=".env")
+load_dotenv()
 
 MODEL = "gpt-4o"
 
