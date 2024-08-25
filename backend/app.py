@@ -9,6 +9,7 @@ from flask_cors import CORS
 from config.log import logger as log
 from dotenv import load_dotenv
 
+
 import nltk
 from deepface import DeepFace
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
