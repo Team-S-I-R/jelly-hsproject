@@ -5,10 +5,10 @@
   </a>
 
 <h3 align="center">
-    Jelly HeadStarter Hackathon
+    JellyUp
 </h3>
   <p align="center">
-    Third Hackathon for Jelly with HeadStarter AI. Targeting JellyJelly.com requirements and specifications for the duration of the Hackathon.
+    A collaborative project developed during the third Hackathon for the JellyJelly Track with HeadStarter AI, aimed at fulfilling the requirements of JellyJelly.com.
     <br />
     <div align="center">
         <a href="#">Report Bug</a>
@@ -21,13 +21,11 @@
 </div>
 <br>
 
-> [!WARNING] 
-> This project is a Hackathon submission for JellyJelly for HeadStarter AI, a fellowship program dedicated to provide opportunities for the next generation. This project is a transcriber for JellyJelly.com and intended as a feature, and is currently still under development.
-
+> **Warning**  
+> This project is a Hackathon submission for JellyJelly as part of the HeadStarter AI fellowship program, dedicated to providing opportunities for the next generation. This project serves as a transcriber for JellyJelly.com and is currently under development.
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [Architecture Diagram](#architecture-diagram)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
@@ -38,16 +36,45 @@
 ## Architecture Diagram
 ![Architecture-Diagram](repo-assets/architecture.png)
 
-The architecture diagram above shows a general structure of the application, and how each components interact with each other.
-Regarding on the iterative progress of the project, the architecture is subject to change, and may not be the final version of the application. 
+The architecture diagram above illustrates the general structure of the application and how each component interacts with one another. Please note that the architecture is subject to change as the project progresses.
+
+## Tech Stack
+
+### Backend
+- **Framework**: Flask
+- **Machine Learning Libraries**:
+  - Transformers 
+  - OpenAI 
+  - DeepFace 
+- **Audio and Video Processing**:
+  - Pydub
+  - MoviePy
+  - FFmpeg
+- **Database**: Supabase 
+
+### Frontend
+- **Framework**: React (with Next.js)
+- **Styling**: Tailwind CSS, ShadCN UI
+- **Animation**: Framer Motion, Drei (for 3D animations with React Fiber)
+- **TypeScript**
+- **Node.js**
+
+### Development Tools
+- **Containerization**: Docker
+- **Package Management**: Poetry, npm 
+- **Deployment**: Vercel
+
+### Additional Tools
+- **Image Search**: Pexels API (for retrieving images based on queries, maybe not applied at the time of your reeading this)
+- **Natural Language Processing**: NLTK (for sentiment analysi, maybe not applied at the time of your reeading this)
 
 ## Getting Started
 
-This is a general step-by-step guide on how to get the application up and running on your own machine, for development or for any testing purposes you may refer to the documentation for more information.
+This guide provides step-by-step instructions on how to set up the application on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-To be able to run the application, you should have the following installed on your machine:
+Ensure you have the following installed on your machine:
 - [Node.js](https://nodejs.org/en/)
 - [npm](https://www.npmjs.com/)
 - [Git](https://git-scm.com/)
@@ -60,52 +87,46 @@ To be able to run the application, you should have the following installed on yo
 
 ### Installation
 
-Firstly, clone the repository:
-```bash
-git clone https://github.com/NautilusAI/Customer-Support-AI.git .
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/NautilusAI/Customer-Support-AI.git .
+   ```
 
-> **NOTE**: The `.` at the end of the command clones the repository into the current directory, rather than creating a new directory with the name of this repo.
+   > **Note**: The `.` at the end of the command clones the repository into the current directory instead of creating a new directory.
 
-First, navigate to the directory where the frontend is stored, and install the dependencies found within the `package.json` file:
-```bash
-cd ./frontend | cd .\frontend\
-```
+2. Navigate to the frontend directory and install the dependencies:
+   ```bash
+   cd ./frontend
+   npm install
+   ```
 
-Next, install the dependencies found within the `package.json` file:
-```bash
-npm install | npm i
-```
+3. You can now run the application locally. It is recommended to use the `run.cmd` command to start the application:
+   ```bash
+   .\run.cmd
+   ```
 
-You should now be able to run the application locally, I suggest using the `run.cmd` command to start the application:
-```bash
-.\run.cmd
-```
+   Alternatively, you can start the application using:
+   ```bash
+   npm run dev
+   ```
 
-But you can also just the application using the following commands:
-```bash
-npm run dev
-```
+   If you prefer not to use `npm`, you can also use `yarn`, `pnpm`, or `bun`:
+   ```bash
+   yarn dev
+   # or
+   pnpm dev
+   # or
+   bun dev
+   ```
 
-if you don't intend to use `npm`, you can also use `yarn`, `pnpm`, or `bun` to run the application (or any other package manager you prefer):
-
-```bash
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-> **NOTE**: If the command doesn't exist, or there are some issues, please check the `package.json` file for the correct command.
-
+   > **Note**: If you encounter issues, please check the `package.json` file for the correct command.
 ### Usage
 
-To use the application, you can navigate to the following URL:
+To access the application, navigate to: 
 ```bash
 http://localhost:3000
-```
 
-> **NOTE**: All applications build using Next.js will usually run on port `3000`, but this can be changed within the `next.config.js` file. 
+   > **NOTE**: All applications build using Next.js will usually run on port `3000`, but this can be changed within the `next.config.js` file.
 
 ## License
 
