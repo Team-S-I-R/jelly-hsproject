@@ -5,6 +5,7 @@ import sys
 import time
 import subprocess
 
+
 @dataclass
 class ExtensionTypes:
     WAV = "wav"
@@ -16,14 +17,19 @@ class ExtensionTypes:
     FLAC = "flac"
 
 
-BASE_PATH = "./uploads/"
-
 def is_valid_extension(file: str) -> bool:
-    if file not in ExtensionTypes.__annotations__.values():
-        log.error(f"Invalid file extension provided for {file}.")
-        return False
+    """
+    Check if the file has a valid file extension for conversion.
 
-    return True
+    :param file: The file to check.
+    :return: True if the file has a valid extension, otherwise False.
+    """
+
+    for ext in ExtensionTypes.__annotations__.values():
+        if ext in file:
+            return True
+
+    return False
 
 
 def is_valid(file: str, output: str) -> bool:
@@ -39,26 +45,28 @@ def is_valid(file: str, output: str) -> bool:
 
 
 # this converts mp4 to wav
-def convert_mp4_to_wav(file_path):
+def convert_mp4_to_wav(file_path: str) -> str | None:
+    """
+    Convert an .mp4 file to .wav format.
+
+    :param file_path: The path to the .mp4 file.
+    :return: The path to the converted .wav file.
+    """
+
+    is_valid_extension(file_path)
+
     try:
-        # Normalize the file path
-        normalized_path = os.path.normpath(file_path)
-        
-        # Get the directory and filename
+        normalized_path = os.path.normpath(file_path)  # Normalized path
         directory, filename = os.path.split(normalized_path)
-        
-        # Get the filename without extension
+
         filename_without_ext = os.path.splitext(filename)[0]
-        
-        # Create the output wav file path
+
         output_wav = os.path.join(directory, f"{filename_without_ext}.wav")
-        
-        log.info(f"Processing {normalized_path}")
-        
-        # Run ffmpeg command with the -y flag to overwrite if the file exists
+        log.info(f"Processing {normalized_path} in {directory}")
+
         subprocess.run([
             "ffmpeg",
-            "-y",  # Automatically overwrite output file if it exists
+            "-y",
             "-i",
             normalized_path,
             output_wav
@@ -71,6 +79,7 @@ def convert_mp4_to_wav(file_path):
     except subprocess.CalledProcessError as e:
         log.error(f"Error during conversion: {e}")
         return None
+
     except Exception as e:
         log.error(f"Unexpected error: {e}")
         return None

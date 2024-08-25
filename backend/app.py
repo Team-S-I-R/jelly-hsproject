@@ -1,22 +1,20 @@
+import os
+import time
+import requests
+
 from flask import Flask, jsonify, request
 from config.log import logger as log
-from flask import abort, redirect
-from deepface import DeepFace
-import time
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import nltk
-import requests
-from moviepy.editor import AudioFileClip, ImageClip, CompositeVideoClip
-import os
 from dotenv import load_dotenv
-import google.generativeai as genai
+
+import nltk
+from deepface import DeepFace
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from moviepy.editor import AudioFileClip, ImageClip, CompositeVideoClip
 from config.error_config import register_error_handlers
-from config.captions_config import add_captions
 from config.convert_config import convert_mp4_to_wav
-from config.genai_config import process_audio
-from config.upload_config import upload_file_to_supabase
-import cv2
+from handler.error_handler import handle_200_json, handle_400_json, handle_404_json, handle_429_json
 from werkzeug.utils import secure_filename
+import google.generativeai as genai
 
 
 load_dotenv()
@@ -25,23 +23,31 @@ app = Flask(__name__)
 nltk.download('vader_lexicon')
 sid = SentimentIntensityAnalyzer()
 
-# registering error handlers in error_config.py
 register_error_handlers(app)
 
 UPLOAD_FOLDER = './temp'
-ALLOWED_EXTENSIONS = {'mp4', 'mp3', 'wav'}
+ALLOWED_EXTENSIONS = {
+    "mp4",
+    "mp3",
+    "wav",
+    "avi"
+}
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 @app.route("/main", methods=['POST'])
-def transcribe():  
+def transcribe():
+    """
+    Transcribe the audio file to text (transcribe) with timestamps.
+
+    :return: JSON response.
+    """
+
     if "file" not in request.files:
-        return jsonify({
-            "error": "400: BAD REQUEST.",
-            "message": "No file part in the request.",
-            "status": 400
-        }), 400
+        return handle_400_json(message="400: BAD REQUEST. NO FILE PART.")
 
     file = request.files["file"]
     
@@ -49,18 +55,18 @@ def transcribe():
         return jsonify({
             "error": "400: BAD REQUEST.",
             "message": "No selected file.",
-            "status": 400
+            "status": 400,
+            "date": time.time()
         }), 400
     
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file_path = os.path.join(UPLOAD_FOLDER, filename)
         file.save(file_path)
-
         log.info(f"File saved at: {file_path}")
 
         input_path = file_path
-        print("input_path", input_path)
+        log.info(f"Input_Path: {input_path}")
         
         convertedWav = convert_mp4_to_wav(input_path)
         # # TODO: Transcribe .wav file to text using AI (config/transcribe_config.py)
@@ -83,23 +89,20 @@ def transcribe():
        
         # os.remove(wav_path)
         # os.remove(file_path)
-        
-        # if success
-        return jsonify({
-            "message": "Transcription completed successfully.",
-            "status": 200
-        }), 200
+        return handle_200_json(message="200: SUCCESSFULLY TRANSCRIBED.")
 
-    # if bad request
-    return jsonify({
-        "error": "400: BAD REQUEST.",
-        "message": "File type not allowed.",
-        "status": 400
-    }), 400
+    return handle_400_json(message="400: BAD REQUEST. FILE TYPE NOT ALLOWED.")
 
 
+# TODO: COMPLETE FUNCTION!
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
+    """
+    Upload a file to the server (./uploads folder).
+
+    :return: JSON response.
+    """
+
     if request.method == "POST":
         if request.files:
             file = request.files["file"]
@@ -107,28 +110,56 @@ def upload():
 
 
 def mapping(text):
+    """
+    Map the sentiment analysis to a dictionary.
+
+    :param text: the text to analyze for sentiment.
+    :return: A dictionary with the sentiment analysis.
+    """
+
     sentiment_scores = sid.polarity_scores(text)
     compound = sentiment_scores['compound']
 
     if compound >= 0.05:
         return {"Happy": compound}
+
     elif compound <= -0.05:
         return {"Sad": abs(compound)}
+
     else:
         return {"Neutral": 1 - abs(compound)}
 
 
 def text_emotion_analysis(text):
+    """
+    Analyze the emotion of the text.
+    :param text: The text to analyze for sentiment.
+    :return: The emotion of the text.
+    """
+
     return mapping(text)
 
 
 def face_emotion_analysis(file_path):
+    """
+    Analyze the emotion of the face in the video/image.
+
+    :param file_path: The path to the video/image file.
+    :return: The emotion of the face in the video/image.
+    """
+
     result = DeepFace.analyze(img_path=file_path, actions=["emotion"])
     return result[0]["dominant_emotion"]
 
 
 @app.route("/create-video", methods=['POST'])
 def create_video():
+    """
+    Create a video from the transcript and audio file.
+
+    :return: JSON response.
+    """
+
     data = request.json
     transcript = data.get("transcript")
     audio_file = data.get("audio_file")
@@ -138,16 +169,20 @@ def create_video():
     summary_text = response.text
     words = summary_text.split()
     chunk = 10
-    chunks = [' '.join(words[i:i + chunk]) for i in range(0, len(words), chunk_size)]
+    chunks = [' '.join(words[i:i + chunk]) for i in range(0, len(words), chunk)]
 
     clips = []
     audio = AudioFileClip(audio_file)
     for chunk in chunks:
-        pexels_api_key = os.getenv("PEXELS_API_KEY")
         response = requests.get(
             "https://api.pexels.com/v1/search",
-            headers={"Authorization": pexels_api_key},
-            params={"query": chunk, "per_page": 1}
+            headers={
+                "Authorization": os.getenv("PEXELS_API_KEY")
+            },
+            params={
+                "query": chunk,
+                "per_page": 1
+            }
         )
         if response.status_code == 200:
             image_url = response.json()["photos"][0]["src"]["original"]
@@ -158,7 +193,12 @@ def create_video():
     output = f"./uploads/video_{int(time.time())}.mp4"
     final.write_videofile(output, codec='libx264', audio_codec='aac')
 
-    return jsonify({"message": "video created!"}), 200
+    return jsonify({
+        "message": "200: SUCCESSFULLY CREATED VIDEO.",
+        "status": 200,
+        "date": time.time(),
+        "output": output
+    }), 200
 
 
 if __name__ == '__main__':
