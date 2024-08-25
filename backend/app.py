@@ -221,5 +221,5 @@ def create_video():
 
 if __name__ == '__main__':
     start_time = time.time()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
     log.info(f"Application started in {time.time() - start_time} seconds")

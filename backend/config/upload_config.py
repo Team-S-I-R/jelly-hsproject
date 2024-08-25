@@ -20,7 +20,6 @@ key = os.getenv('NEXT_PUBLIC_SUPABASE_SERVICE_ROLE')
 supabase = create_client(url, key)
 
 
-
 def generate_random_id() -> str:
     """
     Generate a random ID using the UUID lib.
@@ -31,8 +30,6 @@ def generate_random_id() -> str:
 
 
 def upload_file_to_supabase(filepath: str, filename: str) -> str:
-    
-    
     """
     Upload a file to Supabase (storage) and store the public URL in the database.
     :param filepath: The path to the file that needs to be uploaded.
