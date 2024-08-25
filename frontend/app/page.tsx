@@ -48,11 +48,15 @@ export default function Home() {
 	return (
 		<>
 			<Header />
-			<main className="no-scrollbar w-screen h-screen overflow-y-scroll overflow-x-hidden">
-				<BackgroundGradientAnimation className="absolute w-full h-full"/>
-					<div className="flex flex-col place-items-center place-content-center w-full h-full">
+			<main className="no-scrollbar w-screen h-screen overflow-y-scroll">
+				{/* <BackgroundGradientAnimation className="!absolute w-full h-full"/> */}
+				<div className="w-full h-[20%]"></div>
+				<div className="flex flex-col w-full h-full">
+					
+
+					<div className="w-full h-full flex flex-col place-items-center place-content-center">
+						{/* Jelly Title */}
 						<div className="w-1/2 h-max z-50 inset-0 flex flex-col place-items-center place-content-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl">
-							{/* Jelly Title */}
 							<div className="w-max h-max flex flex-col gap-3">
 								<p className="bg-clip-text text-transparent drop-shadow-2xl bg-gradient-to-b from-white to-white/70 p-2 select-none">
 									Jelly Up!
@@ -73,7 +77,10 @@ export default function Home() {
 								<Testimonials />
 							</motion.div>
 						</motion.div>
+					</div>
 
+					<div className="w-full h-full flex flex-col place-items-center place-content-center">
+						
 						{/* WobbleCardGrid */}
 						<motion.div className="w-1/2 relative z-10 my-4 flex flex-col gap-2 place-items-center">
 							<motion.div
@@ -85,8 +92,11 @@ export default function Home() {
 							</motion.div>
 						</motion.div>
 
+					</div>
+
+
 					{/* JellyUp WaitList Form */}
-					<motion.div className="w-1/2 relative z-10 my-4  flex flex-col gap-2 place-items-center">
+					{/* <motion.div className="w-1/2 relative z-10 my-4  flex flex-col gap-2 place-items-center">
 							<motion.form
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
@@ -123,7 +133,8 @@ export default function Home() {
 							>
 								Join the Waitlist!
 							</motion.p>
-					</motion.div>
+					</motion.div> */}
+
 				</div>
 			</main>
 		</>
