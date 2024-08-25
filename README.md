@@ -36,7 +36,7 @@
 - [License](#license)
 
 ## Architecture Diagram
-![Architecture-Diagram](repo-assets/architecture-diagram.png)
+![Architecture-Diagram](repo-assets/architecture.png)
 
 The architecture diagram above shows a general structure of the application, and how each components interact with each other.
 Regarding on the iterative progress of the project, the architecture is subject to change, and may not be the final version of the application. 
