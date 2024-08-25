@@ -51,10 +51,10 @@ export default function Home() {
 			<main className="no-scrollbar w-screen h-screen overflow-y-scroll">
 				{/* <BackgroundGradientAnimation className="!absolute w-full h-full"/> */}
 				<div className="w-full h-[20%]"></div>
-				<div className="flex flex-col w-full h-full">
+				<div className="flex flex-col w-full  gap-4 h-max">
 					
 
-					<div className="w-full h-full flex flex-col place-items-center place-content-center">
+					<div className="w-full h-max flex flex-col place-items-center place-content-center">
 						{/* Jelly Title */}
 						<div className="w-1/2 h-max z-50 inset-0 flex flex-col place-items-center place-content-center justify-center text-white font-bold px-4 pointer-events-none text-3xl text-center md:text-4xl lg:text-7xl">
 							<div className="w-max h-max flex flex-col gap-3">
@@ -65,24 +65,25 @@ export default function Home() {
 									The Fastest Way to Post Brilliant Video Chats.
 								</p>
 							</div>
-						</div>
-
-						{/* Testimonials */}
-						<motion.div className="w-1/2 relative z-10 my-4 flex flex-col gap-2 place-items-center">
-							<motion.div
-								initial={{ opacity: 0, y: 20 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ duration: 1.7 }}
-							>
-								<Testimonials />
-							</motion.div>
-						</motion.div>
+						</div>	
 					</div>
 
-					<div className="w-full h-full flex flex-col place-items-center place-content-center">
+					{/* Testimonials */}
+					<motion.div className="w-full relative z-10 my-4 h-max">
+						<motion.div
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 1.7 }}
+							className="w-full"
+						>
+							<Testimonials />
+						</motion.div>
+					</motion.div>
+
+					<div className="w-full h-[80%] px-8 flex flex-col place-items-center place-content-center">
 						
 						{/* WobbleCardGrid */}
-						<motion.div className="w-1/2 relative z-10 my-4 flex flex-col gap-2 place-items-center">
+						<motion.div className="w-full my-4 flex flex-col gap-2 place-items-center">
 							<motion.div
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
