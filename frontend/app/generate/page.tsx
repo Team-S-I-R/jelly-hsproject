@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Player, Script } from "liqvid";
 import { BackgroundGradientAnimation } from "../../components/ui/background-gradient-animations";
 
@@ -84,59 +84,62 @@ export default function GenClientComponent() {
         ["plan/3", "0:01"]
     ];
 
-    const script = new Script(markers);
+    const [script, setScript] = useState<Script | null>(null);
 
-      function MyVideo() {
-        return (
-          <Player script={script}>
-            <Intro/>
-            <Plan/>
-          </Player>
-        );
-      }
+    // ALL OF THE REACT STUFF THAT NEEDS TO HAPPEN WILL HAPPEN FIRST
+    useEffect(() => {
+        // AND THEN THE PLAYER WILL TRY TO RENDER
+        setScript(new Script(markers));
+    }, []);
 
-      function Intro() {
+
+    function Intro() {
         return (
-          <section data-during="intro/">
-            <h1>Hello <span data-from-first="intro/world">World!</span></h1>
-          </section>
+            <section data-during="intro/">
+                <h1>Hello <span data-from-first="intro/world">World!</span></h1>
+            </section>
         );
-      }
-      
-      function Plan() {
+    }
+    
+    function Plan() {
         return (
-          <section data-during="plan/">
-            <h2>The Plan</h2>
-            <ol>
-              <li data-from-first="plan/1">Make interactive videos</li>
-              <li data-from-first="plan/2">???</li>
-              <li data-from-first="plan/3">Profit!</li>
-            </ol>
-          </section>
+            <section data-during="plan/">
+                <h2>The Plan</h2>
+                <ol>
+                    <li data-from-first="plan/1">Make interactive videos</li>
+                    <li data-from-first="plan/2">???</li>
+                    <li data-from-first="plan/3">Profit!</li>
+                </ol>
+            </section>
         );
-      }
+    }
 
     return (
         <>
-          <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full"/>
-          <div className="w-full h-full flex items-center justify-center">
-              <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
-                  <p>Test Gen</p>
-                  <input 
-                      type="file" 
-                      accept="video/*" 
-                      ref={fileInputRef} 
-                      onChange={handleFileChange} 
-                      className="w-max bg-blue-300"
-                  />
-                  <button className="p-[3px]" onClick={uploadVideo}>Generate</button>
-                  {/* <button className="p-[3px]" onClick={callJelly}>Generate</button> */}
-              </div>
+            <BackgroundGradientAnimation className="flex flex-col place-items-center place-content-center h-full w-full"/>
+            <div className="w-full h-full flex items-center justify-center">
+                <div className="w-1/2 h-full flex flex-col gap-4 place-items-center place-content-center">
+                    <p>Test Gen</p>
+                    <input 
+                        type="file" 
+                        accept="video/*" 
+                        ref={fileInputRef} 
+                        onChange={handleFileChange} 
+                        className="w-max bg-blue-300"
+                    />
+                    <button className="p-[3px]" onClick={uploadVideo}>Generate</button>
+                    {/* <button className="p-[3px]" onClick={callJelly}>Generate</button> */}
+                </div>
 
-              <div className='w-1/2 h-full flex place-items-center place-content-center '>
-                  <MyVideo/>
-              </div>
-          </div>
+                <div className='w-1/2 h-full flex place-items-center place-content-center '>
+                    {script && (
+                        <Player script={script}>
+                            <Intro/>
+                            <Plan/>
+                        </Player>
+                    )}
+                </div>
+            </div>
         </>
     );
 }

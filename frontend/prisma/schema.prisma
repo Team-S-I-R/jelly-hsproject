@@ -20,3 +20,8 @@ id               String         @id @unique
 name             String?
 email            String         @unique
 }
+
+model Url {
+  id               String         @id @unique
+  url              String         
+}

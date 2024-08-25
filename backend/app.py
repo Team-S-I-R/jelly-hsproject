@@ -82,18 +82,14 @@ def transcribe():
         # # TODO: Tunr captions into s .srt file (captions file)
         add_ct = add_captions(input_path, output_path, captions_path)
         # # TODO: Store in Database (TBD)
-        upload = upload_file_to_supabase(add_ct)
-        # # TODO: Return video url
-        # print("Done!")
-        # return add_ct
-        # # TODO: Delete .wav file ./uploads
-        # # TODO: Delete .mp4 file from ./temp
+        upload = upload_file_to_supabase(add_ct, filename)
         time.sleep(1)
         # log.info(f"Temporary files removed: {wav_path} and {file_path}")
         
         # time.sleep(2)
         # print("removing temporary files...")
        
+        # # TODO: Delete files
         new_filename = filename.replace('.mp4', '.wav')
         os.remove(f'./temp/{filename}')
         time.sleep(1)
