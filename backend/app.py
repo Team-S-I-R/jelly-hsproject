@@ -71,9 +71,12 @@ def transcribe():
         convertedWav = convert_mp4_to_wav(input_path)
         # # TODO: Transcribe .wav file to text using AI (config/transcribe_config.py)
         # # TODO: Return transcribed text in JSON
-        # captions_text = process_audio(convertedWav)
+        time.sleep(2)
+        captions_text = process_audio(convertedWav)
         # # TODO: Add text to video (config/captions_config.py)
-        # add_ct = add_captions(input_path, convertedWav, captions_text)
+
+        # # TODO: Tunr captions into s .srt file (captions file)
+        add_ct = add_captions(input_path, convertedWav, captions_text)
         # # TODO: Store in Database (TBD)
         # upload = upload_file_to_supabase(convertedWav)
         # # TODO: Return video url
