@@ -21,9 +21,6 @@
 </div>
 <br>
 
-> **Warning**  
-> This project is a Hackathon submission for JellyJelly as part of the HeadStarter AI fellowship program, dedicated to providing opportunities for the next generation. This project serves as a transcriber for JellyJelly.com and is currently under development.
-
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
