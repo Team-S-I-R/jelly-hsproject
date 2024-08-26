@@ -3,9 +3,16 @@ import os
 import uuid
 import time
 from dotenv import load_dotenv
+import subprocess
 
 
 load_dotenv()
+def compress_video(input_file_path, output_file_path):
+    command = [
+        'ffmpeg', '-i', input_file_path, '-vcodec', 'libx264', '-crf', '28', output_file_path
+    ]
+    subprocess.run(command, capture_output=True, check=True)
+    return output_file_path
 
 """
 Upload a file to supabase (storage) and store the public URL in the database.
@@ -36,9 +43,13 @@ def upload_file_to_supabase(filepath: str, filename: str) -> str:
     :param filename: The name of the file that needs to be uploaded.
     :return: The response from the Supabase storage.
     """
-    suppath = "thefiles/" + filename
 
-    with open(filepath, 'rb') as f:
+    temp_dir = "./temp/"
+    compressed_filepath = compress_video(filepath, temp_dir + os.path.basename(filepath)[:-4] + (filename) + ".mp4")
+
+    suppath = "theFiles/" + os.path.basename(compressed_filepath)
+
+    with open(f'./temp/captioned_video{filename}.mp4', 'rb') as f:
         supabase.storage.from_('video').upload(file=f, path=suppath, file_options={'content-type': 'video/mp4'})
 
     time.sleep(1)

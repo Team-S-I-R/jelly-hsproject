@@ -1,5 +1,6 @@
 import cv2
 import re
+import subprocess
 
 
 def parse_srt(srt_path):
@@ -97,20 +98,28 @@ def add_filters(frame, filter_type='grayscale'):
 def add_captions(input_path, output_path, captions_path, filter_type=None):
     cap = cv2.VideoCapture(input_path)
 
-    fourcc = cv2.VideoWriter_fourcc(*'H264')
+    # Determine the codec based on the file extension
+    if input_path.lower().endswith('.mov'):
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    elif input_path.lower().endswith('.mp4'):
+        fourcc = cv2.VideoWriter_fourcc(*'avc1')
+    else:
+        fourcc = cv2.VideoWriter_fourcc(*'H264')
+
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     is_color = filter_type != 'grayscale'
-    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height), is_color)
+    temp_output_path = 'temp_output.mp4'
+    out = cv2.VideoWriter(temp_output_path, fourcc, fps, (width, height), is_color)
 
     captions = parse_srt(captions_path)
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 1.0  # Increase the font scale to make the text bigger
-    font_thickness = 3  # Increase the font thickness to make the text thicker
-    color = (255, 255, 255)
+    font_scale = 3.0  # Increase the font scale to make the text bigger
+    font_thickness = 15  # Increase the font thickness to make the text thicker
+    color = (0, 165, 255)
     border_color = (0, 0, 0)  # Black border color
     margin = 20  # Increase the margin to add more space between lines
     max_width = width - 2 * margin
@@ -145,14 +154,20 @@ def add_captions(input_path, output_path, captions_path, filter_type=None):
             text_x = int((width - text_width) / 2)
             
             # Draw the border
-            cv2.putText(frame, line, (text_x, y - 60), font, font_scale, border_color, font_thickness + 2, cv2.LINE_AA)
+            cv2.putText(frame, line, (text_x, y - 400), font, font_scale, border_color, font_thickness + 2, cv2.LINE_AA)
             # Draw the text
-            cv2.putText(frame, line, (text_x, y - 60), font, font_scale, color, font_thickness, cv2.LINE_AA)
-            y -= (line_height + margin)
+            cv2.putText(frame, line, (text_x, y - 400), font, font_scale, color, font_thickness, cv2.LINE_AA)
+            y -= (line_height + margin + 50)  # Increase the space between lines by adding 10 pixels
 
         out.write(frame)
 
     cap.release()
     out.release()
+
+    # Use ffmpeg to add the audio back to the video
+    command = [
+        'ffmpeg', '-i', temp_output_path, '-i', input_path, '-c', 'copy', '-map', '0:v:0', '-map', '1:a:0', output_path
+    ]
+    subprocess.run(command, capture_output=True, check=True)
 
     return output_path

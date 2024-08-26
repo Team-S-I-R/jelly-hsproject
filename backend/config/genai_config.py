@@ -47,15 +47,16 @@ def query_chatgpt(user_content: str, system_prompt: str) -> str:
     return file_path
 
 
-def process_audio(song):
-    song = AudioSegment.from_file(song, format="wav")
+def process_audio(file_path):
+    # Convert the input file to WAV format if it's not already
+    if not file_path.lower().endswith('.wav'):
+        audio = AudioSegment.from_file(file_path)
+        wav_path = './temp/converted_audio.wav'
+        audio.export(wav_path, format='wav')
+    else:
+        wav_path = file_path
 
-    ten_minutes = 10 * 60 * 1000
-    first_10_minutes = song[:ten_minutes]
-    first_10_minutes.export("./temp/good_morning_10.wav", format="wav")
-
-    audio_file_path = "./temp/good_morning_10.wav"
-    with open(audio_file_path, "rb") as audio_file:
+    with open(wav_path, "rb") as audio_file:
         transcript = client.audio.transcriptions.create(
             file=audio_file,
             model="whisper-1",
@@ -75,6 +76,7 @@ def process_audio(song):
         "00:00:05,000 --> 00:00:10,000\n"
         "This is the second subtitle.\n\n"
         "Please use appropriate timestamps and split the transcript into subtitles based on natural breaks. "
+        "Also, please account for the pauses that the speaker(s) may have when generating the timestamps. Do not just make them come one after another intelligently make the appropriate pauses.\n\n"
         "Here is the transcript text:\n\n"
     )
 

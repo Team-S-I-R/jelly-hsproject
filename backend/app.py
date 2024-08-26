@@ -53,6 +53,18 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def delete_files_in_directory(directory_path='./temp'):
+    try:
+        files = os.listdir(directory_path)
+        for file in files:
+            file_path = os.path.join(directory_path, file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        print("All files in the './temp' directory deleted successfully.")
+    except OSError as e:
+        print(f"Error occurred while deleting files: {e}")
+        
+
 @app.route("/main", methods=['POST'])
 def transcribe():
     """
@@ -65,28 +77,34 @@ def transcribe():
         return handle_400_json(message="400: BAD REQUEST. NO FILE PART.")
 
     file = request.files["file"]
+    print(file)
+
+    # if file.filename == '':
+    #     return jsonify({
+    #         "error": "400: BAD REQUEST.",
+    #         "message": "No selected file.",
+    #         "status": 400,
+    #         "date": time.time()
+    #     }), 400
+
     
-    if file.filename == '':
-        return jsonify({
-            "error": "400: BAD REQUEST.",
-            "message": "No selected file.",
-            "status": 400,
-            "date": time.time()
-        }), 400
-    
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+    # if file and allowed_file(file.filename):
+    if file:
+        # filename = secure_filename(file.filename)
+        filename = file.filename
         file_path = os.path.join(UPLOAD_FOLDER, filename)
         file.save(file_path)
         log.info(f"File saved at: {file_path}")
 
         input_path = file_path
         print(f"Input_Path: {input_path}")
-        output_path = './temp/captioned_Video.mp4'
+        output_path = './temp/captioned_Video.mov'
+        print(f"output_path: {output_path}")
         
         # ✅ this return the original mp4 and wav
         convertedWav = convert_mp4_to_wav(input_path)
         time.sleep(2)
+        print(f"convertedWav: {convertedWav}")
 
         #  (this is a chunk of the full wav if its too long)
         # ✅ this saves good_morning_10.wav
@@ -101,28 +119,9 @@ def transcribe():
         time.sleep(1)
         
         # Delete files
-        new_filename = filename.replace('.mp4', '.wav')
-        
-        # removes the FULL wav
-        os.remove(f'./temp/{filename}')
-        time.sleep(1)
+        new_filename = filename.replace('.mov', '.wav')
 
-        # this removes the mp4
-        os.remove(f'./temp/{new_filename}')     
-        time.sleep(1)
-
-
-        # this removes the captioned_Video.mp4 ✅
-        os.remove(f'./temp/captioned_Video.mp4')
-        time.sleep(1)
-
-        # this removes the srt  
-        os.remove(f'./temp/response.srt')
-        time.sleep(1)
-
-        # this removes the wav CHUNK
-        os.remove(f'./temp/good_morning_10.wav')
-        time.sleep(1)
+        delete_files_in_directory()
 
         return jsonify({
             "message": "File successfully uploaded and processed.",

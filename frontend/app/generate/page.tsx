@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 export default function GenClientComponent() {
     const [videoFile, setVideoFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [videoUrl, setVideoUrl] = useState<string>('/testvid.mp4'); // Reference the file directly
+    const [videoUrl, setVideoUrl] = useState<string>('/'); // Reference the file directly
     const [isLoading, setIsLoading] = useState(false);
 
     // Function to handle file input change
@@ -18,6 +18,7 @@ export default function GenClientComponent() {
         const file = event.target.files ? event.target.files[0] : null;
         if (file) {
             setVideoFile(file);
+            console.log(file);
         }
     };
 
@@ -32,6 +33,8 @@ export default function GenClientComponent() {
 
         const formData = new FormData();
         formData.append('file', videoFile);
+
+        console.log(formData);
 
         try {
             console.log('Uploading video file');
