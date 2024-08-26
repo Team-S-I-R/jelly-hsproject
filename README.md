@@ -8,7 +8,7 @@
     JellyUp
 </h3>
   <p align="center">
-    A collaborative project developed during the third Hackathon for the JellyJelly Track with HeadStarter AI, aimed at fulfilling the requirements of JellyJelly.com.
+    A collaborative project developed d aimed at fulfilling/replicating the requirements of JellyJelly.com.
     <br />
     <div align="center">
         <a href="#">Report Bug</a>
